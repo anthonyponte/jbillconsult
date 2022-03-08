@@ -4,7 +4,6 @@ import com.anthonyponte.jbillconsultservice.pojo.User;
 import com.anthonyponte.jbillconsultservice.view.BillFrame;
 import com.anthonyponte.jbillconsultservice.view.UserFrame;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
@@ -34,32 +33,29 @@ public class UserController {
     frame.tfPassword.getDocument().addDocumentListener(dl);
 
     frame.btnLogIn.addActionListener(
-        new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent arg0) {
-            try {
-              User user = User.getInstance();
-              user.setRuc(frame.tfRuc.getText());
-              user.setUsername(frame.tfUsername.getText());
-              user.setPassword(String.valueOf(frame.tfPassword.getPassword()));
+        (ActionEvent arg0) -> {
+          try {
+            User user = User.getInstance();
+            user.setRuc(frame.tfRuc.getText());
+            user.setUsername(frame.tfUsername.getText());
+            user.setPassword(String.valueOf(frame.tfPassword.getPassword()));
 
-              if (frame.cbRemember.isSelected()) {
-                prefs.put(TAG_RUC, frame.tfRuc.getText());
-                prefs.put(TAG_USERNAME, frame.tfUsername.getText());
-              } else {
-                prefs.clear();
-              }
-
-              frame.dispose();
-
-              SwingUtilities.invokeLater(
-                  () -> {
-                    BillFrame billFrame = new BillFrame();
-                    new BillController(billFrame).start();
-                  });
-            } catch (BackingStoreException ex) {
-              Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            if (frame.cbRemember.isSelected()) {
+              prefs.put(TAG_RUC, frame.tfRuc.getText());
+              prefs.put(TAG_USERNAME, frame.tfUsername.getText());
+            } else {
+              prefs.clear();
             }
+
+            frame.dispose();
+
+            SwingUtilities.invokeLater(
+                () -> {
+                  BillFrame billFrame = new BillFrame();
+                  new BillController(billFrame).start();
+                });
+          } catch (BackingStoreException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
           }
         });
   }
