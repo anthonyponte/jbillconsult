@@ -1,40 +1,57 @@
 package com.anthonyponte.jbillconsultservice.pojo;
 
 import com.poiji.annotation.ExcelCellName;
-import pe.gob.sunat.StatusResponse;
 
 public class Bill {
-
   @ExcelCellName("RUC")
   private String ruc;
 
   @ExcelCellName("Tipo")
-  private String type;
+  private String tipo;
 
   @ExcelCellName("Serie")
   private String serie;
 
   @ExcelCellName("Numero")
-  private int number;
+  private int numero;
 
-  private StatusResponse billResponse;
-  private StatusResponse cdrResponse;
+  private String statusCode;
+  private String statusMessage;
+  private byte[] content;
+  private String cdrStatusCode;
+  private String cdrStatusMessage;
+  private byte[] cdrContent;
 
   public Bill() {}
 
+  public Bill(String ruc, String tipo, String serie, int numero) {
+    this.ruc = ruc;
+    this.tipo = tipo;
+    this.serie = serie;
+    this.numero = numero;
+  }
+
   public Bill(
       String ruc,
-      String type,
+      String tipo,
       String serie,
-      int number,
-      StatusResponse billResponse,
-      StatusResponse cdrResponse) {
+      int numero,
+      String statusCode,
+      String statusMessage,
+      byte[] content,
+      String cdrStatusCode,
+      String cdrStatusMessage,
+      byte[] cdrContent) {
     this.ruc = ruc;
-    this.type = type;
+    this.tipo = tipo;
     this.serie = serie;
-    this.number = number;
-    this.billResponse = billResponse;
-    this.cdrResponse = cdrResponse;
+    this.numero = numero;
+    this.statusCode = statusCode;
+    this.statusMessage = statusMessage;
+    this.content = content;
+    this.cdrStatusCode = cdrStatusCode;
+    this.cdrStatusMessage = cdrStatusMessage;
+    this.cdrContent = cdrContent;
   }
 
   public String getRuc() {
@@ -45,12 +62,12 @@ public class Bill {
     this.ruc = ruc;
   }
 
-  public String getType() {
-    return type;
+  public String getTipo() {
+    return tipo;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setTipo(String tipo) {
+    this.tipo = tipo;
   }
 
   public String getSerie() {
@@ -61,28 +78,60 @@ public class Bill {
     this.serie = serie;
   }
 
-  public int getNumber() {
-    return number;
+  public int getNumero() {
+    return numero;
   }
 
-  public void setNumber(int number) {
-    this.number = number;
+  public void setNumero(int numero) {
+    this.numero = numero;
   }
 
-  public StatusResponse getBillResponse() {
-    return billResponse;
+  public String getStatusCode() {
+    return statusCode;
   }
 
-  public void setBillResponse(StatusResponse billResponse) {
-    this.billResponse = billResponse;
+  public void setStatusCode(String statusCode) {
+    this.statusCode = statusCode;
   }
 
-  public StatusResponse getCdrResponse() {
-    return cdrResponse;
+  public String getStatusMessage() {
+    return statusMessage;
   }
 
-  public void setCdrResponse(StatusResponse cdrResponse) {
-    this.cdrResponse = cdrResponse;
+  public void setStatusMessage(String statusMessage) {
+    this.statusMessage = statusMessage;
+  }
+
+  public byte[] getContent() {
+    return content;
+  }
+
+  public void setContent(byte[] content) {
+    this.content = content;
+  }
+
+  public String getCdrStatusCode() {
+    return cdrStatusCode;
+  }
+
+  public void setCdrStatusCode(String cdrStatusCode) {
+    this.cdrStatusCode = cdrStatusCode;
+  }
+
+  public String getCdrStatusMessage() {
+    return cdrStatusMessage;
+  }
+
+  public void setCdrStatusMessage(String cdrStatusMessage) {
+    this.cdrStatusMessage = cdrStatusMessage;
+  }
+
+  public byte[] getCdrContent() {
+    return cdrContent;
+  }
+
+  public void setCdrContent(byte[] cdrContent) {
+    this.cdrContent = cdrContent;
   }
 
   @Override
@@ -90,12 +139,12 @@ public class Bill {
     return "Bill{"
         + "ruc="
         + ruc
-        + ", type="
-        + type
+        + ", tipo="
+        + tipo
         + ", serie="
         + serie
-        + ", number="
-        + number
+        + ", numero="
+        + numero
         + '}';
   }
 }

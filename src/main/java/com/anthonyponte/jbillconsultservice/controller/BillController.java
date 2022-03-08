@@ -17,7 +17,7 @@ import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 import com.anthonyponte.jbillconsultservice.pojo.Bill;
 import com.anthonyponte.jbillconsultservice.impl.BillServiceImpl;
 import com.anthonyponte.jbillconsultservice.view.LoadingDialog;
-import com.anthonyponte.jbillconsultservice.view.UserFrame;
+import com.anthonyponte.jbillconsultservice.view.UsuarioFrame;
 import com.poiji.bind.Poiji;
 import java.awt.AWTException;
 import java.awt.Color;
@@ -155,19 +155,19 @@ public class BillController {
                             cell.setCellValue(bill.getRuc());
                             break;
                           case 1:
-                            cell.setCellValue(bill.getType());
+                            cell.setCellValue(bill.getTipo());
                             break;
                           case 2:
                             cell.setCellValue(bill.getSerie());
                             break;
                           case 3:
-                            cell.setCellValue(bill.getNumber());
+                            cell.setCellValue(bill.getNumero());
                             break;
                           case 4:
-                            cell.setCellValue(bill.getBillResponse().getStatusCode());
+                            cell.setCellValue(bill.getCdrStatusCode());
                             break;
                           case 5:
-                            cell.setCellValue(bill.getBillResponse().getStatusMessage());
+                            cell.setCellValue(bill.getStatusMessage());
                             break;
                           default:
                             break;
@@ -251,11 +251,11 @@ public class BillController {
           @Override
           public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
-              Bill selectedBill = selectionModel.getSelected().get(0);
+              Bill selected = selectionModel.getSelected().get(0);
 
-              if (selectedBill.getBillResponse().getStatusCode().equals("0001")
-                  || selectedBill.getBillResponse().getStatusCode().equals("0002")
-                  || selectedBill.getBillResponse().getStatusCode().equals("0003")) {
+              if (selected.getStatusCode().equals("0001")
+                  || selected.getStatusCode().equals("0002")
+                  || selected.getStatusCode().equals("0003")) {
 
                 SwingWorker worker =
                     new SwingWorker<Bill, Integer>() {
@@ -268,17 +268,19 @@ public class BillController {
                         loadingDialog.progressBar.setMaximum(100);
 
                         publish(0);
-                        StatusResponse response =
+                        StatusResponse statusResponse =
                             service.getStatusCdr(
-                                selectedBill.getRuc(),
-                                selectedBill.getType(),
-                                selectedBill.getSerie(),
-                                selectedBill.getNumber());
+                                selected.getRuc(),
+                                selected.getTipo(),
+                                selected.getSerie(),
+                                selected.getNumero());
 
-                        selectedBill.setCdrResponse(response);
+                        selected.setCdrStatusCode(statusResponse.getStatusCode());
+                        selected.setCdrStatusMessage(statusResponse.getStatusMessage());
+                        selected.setCdrContent(statusResponse.getContent());
                         publish(100);
 
-                        return selectedBill;
+                        return selected;
                       }
 
                       @Override
@@ -295,13 +297,11 @@ public class BillController {
 
                           if (os.compareToIgnoreCase("linux") < 0) {
                             showNotification(
-                                bill.getCdrResponse().getStatusCode()
-                                    + " - "
-                                    + bill.getCdrResponse().getStatusMessage(),
+                                bill.getCdrStatusCode() + " - " + bill.getCdrStatusMessage(),
                                 MessageType.INFO);
                           }
 
-                          if (bill.getCdrResponse().getStatusCode().equals("0004")) {
+                          if (bill.getCdrStatusCode().equals("0004")) {
                             JFileChooser chooser = new JFileChooser();
                             chooser.setCurrentDirectory(new File("."));
                             chooser.setSelectedFile(
@@ -309,11 +309,11 @@ public class BillController {
                                     "R-"
                                         + bill.getRuc()
                                         + "-"
-                                        + bill.getType()
+                                        + bill.getNumero()
                                         + "-"
                                         + bill.getSerie()
                                         + "-"
-                                        + bill.getNumber()
+                                        + bill.getNumero()
                                         + ".zip"));
 
                             int result = chooser.showSaveDialog(billFrame);
@@ -321,7 +321,7 @@ public class BillController {
                               File file = chooser.getSelectedFile().getAbsoluteFile();
                               try (FileOutputStream fout =
                                   new FileOutputStream(file.getParent() + "//" + file.getName())) {
-                                fout.write(bill.getCdrResponse().getContent());
+                                fout.write(bill.getCdrContent());
                                 fout.flush();
                                 fout.close();
                               } catch (FileNotFoundException ex) {
@@ -351,18 +351,18 @@ public class BillController {
     eventList = new BasicEventList<>();
 
     Comparator comparator =
-        (Comparator<Bill>) (Bill o1, Bill o2) -> o1.getNumber() - o2.getNumber();
+        (Comparator<Bill>) (Bill o1, Bill o2) -> o1.getNumero() - o2.getNumero();
 
     sortedList = new SortedList<>(eventList, comparator);
 
     TextFilterator<Bill> textFilterator =
         (List<String> baseList, Bill element) -> {
           baseList.add(element.getRuc());
-          baseList.add(element.getType());
+          baseList.add(element.getTipo());
           baseList.add(element.getSerie());
-          baseList.add(String.valueOf(element.getNumber()));
-          baseList.add(element.getBillResponse().getStatusCode());
-          baseList.add(element.getBillResponse().getStatusMessage());
+          baseList.add(String.valueOf(element.getNumero()));
+          baseList.add(element.getStatusCode());
+          baseList.add(element.getStatusMessage());
         };
 
     MatcherEditor<Bill> matcherEditor =
@@ -404,15 +404,15 @@ public class BillController {
               case 0:
                 return baseObject.getRuc();
               case 1:
-                return baseObject.getType();
+                return baseObject.getTipo();
               case 2:
                 return baseObject.getSerie();
               case 3:
-                return baseObject.getNumber();
+                return baseObject.getNumero();
               case 4:
-                return baseObject.getBillResponse().getStatusCode();
+                return baseObject.getStatusCode();
               case 5:
-                return baseObject.getBillResponse().getStatusMessage();
+                return baseObject.getStatusMessage();
               default:
                 break;
             }
@@ -433,36 +433,25 @@ public class BillController {
   }
 
   private void setToTable(File file) {
+    loadingDialog.setVisible(true);
+    loadingDialog.setLocationRelativeTo(billFrame);
+
     SwingWorker worker =
-        new SwingWorker<List<Bill>, Integer>() {
+        new SwingWorker<List<Bill>, Void>() {
           @Override
           protected List<Bill> doInBackground() throws Exception {
-            loadingDialog.setVisible(true);
-            loadingDialog.setLocationRelativeTo(billFrame);
-
             List<Bill> list = Poiji.fromExcel(file, Bill.class);
-
-            loadingDialog.progressBar.setMinimum(0);
-            loadingDialog.progressBar.setMaximum(list.size());
-
             for (int i = 0; i < list.size(); i++) {
               Bill bill = (Bill) list.get(i);
 
-              StatusResponse response =
+              StatusResponse statusResponse =
                   service.getStatus(
-                      bill.getRuc(), bill.getType(), bill.getSerie(), bill.getNumber());
+                      bill.getRuc(), bill.getTipo(), bill.getSerie(), bill.getNumero());
 
-              list.get(i).setBillResponse(response);
-
-              publish(i);
+              list.get(i).setStatusCode(statusResponse.getStatusCode());
+              list.get(i).setCdrStatusMessage(statusResponse.getStatusMessage());
             }
-
             return list;
-          }
-
-          @Override
-          protected void process(List<Integer> chunks) {
-            loadingDialog.progressBar.setValue(chunks.get(0));
           }
 
           @Override
@@ -498,7 +487,7 @@ public class BillController {
 
                       Bill bill = model.getElementAt(row);
 
-                      switch (bill.getBillResponse().getStatusCode()) {
+                      switch (bill.getStatusCode()) {
                         case "0001":
                           label.setForeground(Color.decode("#AED581"));
                           break;
@@ -556,8 +545,8 @@ public class BillController {
 
               if (input == JOptionPane.OK_OPTION) {
                 billFrame.dispose();
-                UserFrame userFrame = new UserFrame();
-                new UserController(userFrame).start();
+                UsuarioFrame userFrame = new UsuarioFrame();
+                new UsuarioController(userFrame).start();
               }
             }
           }

@@ -19,9 +19,9 @@ import javax.swing.WindowConstants;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 
-public class UserFrame extends javax.swing.JFrame {
+public class UsuarioFrame extends javax.swing.JFrame {
 
-    public UserFrame() {
+    public UsuarioFrame() {
         initComponents();
     }
 
@@ -29,10 +29,10 @@ public class UserFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tfUsername = new JTextField();
-        tfPassword = new JPasswordField();
-        btnLogIn = new JButton();
-        cbRemember = new JCheckBox();
+        tfUsuario = new JTextField();
+        tfContrasena = new JPasswordField();
+        btnEntrar = new JButton();
+        cbRecordar = new JCheckBox();
         tfRuc = new JFormattedTextField();
         lblRuc = new JLabel();
         lblUsername = new JLabel();
@@ -43,22 +43,22 @@ public class UserFrame extends javax.swing.JFrame {
         setTitle("Clave SOL");
         setResizable(false);
 
-        tfUsername.setPreferredSize(new Dimension(150, 30));
-        tfUsername.addKeyListener(new KeyAdapter() {
+        tfUsuario.setPreferredSize(new Dimension(150, 30));
+        tfUsuario.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent evt) {
-                tfUsernameKeyTyped(evt);
+                tfUsuarioKeyTyped(evt);
             }
         });
 
-        tfPassword.setPreferredSize(new Dimension(150, 30));
+        tfContrasena.setPreferredSize(new Dimension(150, 30));
 
-        btnLogIn.setText("Entrar");
-        btnLogIn.setEnabled(false);
-        btnLogIn.setMaximumSize(new Dimension(100, 25));
-        btnLogIn.setMinimumSize(new Dimension(100, 25));
-        btnLogIn.setPreferredSize(new Dimension(100, 25));
+        btnEntrar.setText("Entrar");
+        btnEntrar.setEnabled(false);
+        btnEntrar.setMaximumSize(new Dimension(100, 25));
+        btnEntrar.setMinimumSize(new Dimension(100, 25));
+        btnEntrar.setPreferredSize(new Dimension(100, 25));
 
-        cbRemember.setText("Recordar");
+        cbRecordar.setText("Recordar");
 
         try {
             tfRuc.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("###########")));
@@ -85,14 +85,14 @@ public class UserFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(tfPassword, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tfUsername, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tfContrasena, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tfUsuario, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tfRuc, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblRuc)
                     .addComponent(lblUsername)
                     .addComponent(lblPassword)
-                    .addComponent(cbRemember)
-                    .addComponent(btnLogIn, GroupLayout.PREFERRED_SIZE, 288, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbRecordar)
+                    .addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, 288, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator1, GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -105,17 +105,17 @@ public class UserFrame extends javax.swing.JFrame {
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblUsername)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfUsername, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblPassword)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfPassword, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfContrasena, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbRemember)
+                .addComponent(cbRecordar)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnLogIn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -123,22 +123,22 @@ public class UserFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfUsernameKeyTyped(KeyEvent evt) {//GEN-FIRST:event_tfUsernameKeyTyped
+    private void tfUsuarioKeyTyped(KeyEvent evt) {//GEN-FIRST:event_tfUsuarioKeyTyped
         char keyChar = evt.getKeyChar();
         if (Character.isLowerCase(keyChar)) {
             evt.setKeyChar(Character.toUpperCase(keyChar));
         }
-    }//GEN-LAST:event_tfUsernameKeyTyped
+    }//GEN-LAST:event_tfUsuarioKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public JButton btnLogIn;
-    public JCheckBox cbRemember;
+    public JButton btnEntrar;
+    public JCheckBox cbRecordar;
     public JSeparator jSeparator1;
     public JLabel lblPassword;
     public JLabel lblRuc;
     public JLabel lblUsername;
-    public JPasswordField tfPassword;
+    public JPasswordField tfContrasena;
     public JFormattedTextField tfRuc;
-    public JTextField tfUsername;
+    public JTextField tfUsuario;
     // End of variables declaration//GEN-END:variables
 }

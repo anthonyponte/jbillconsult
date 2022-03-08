@@ -1,18 +1,17 @@
 package com.anthonyponte.jbillconsultservice;
 
-import com.anthonyponte.jbillconsultservice.controller.UserController;
-import com.anthonyponte.jbillconsultservice.view.UserFrame;
+import com.anthonyponte.jbillconsultservice.controller.UsuarioController;
+import com.anthonyponte.jbillconsultservice.view.UsuarioFrame;
 import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.SwingUtilities;
 
 public class Main {
 
   public static void main(String[] args) {
-    SwingUtilities.invokeLater(
-        () -> {
+    SwingUtilities.invokeLater(() -> {
           FlatDarkLaf.setup();
-          UserFrame userFrame = new UserFrame();
-          new UserController(userFrame).start();
+          UsuarioFrame userFrame = new UsuarioFrame();
+          new UsuarioController(userFrame).start();
         });
   }
 }
