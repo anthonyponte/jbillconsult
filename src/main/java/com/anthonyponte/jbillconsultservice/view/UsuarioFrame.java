@@ -43,20 +43,24 @@ public class UsuarioFrame extends javax.swing.JFrame {
         setTitle("Clave SOL");
         setResizable(false);
 
-        tfUsuario.setPreferredSize(new Dimension(150, 30));
+        tfUsuario.setMaximumSize(null);
+        tfUsuario.setMinimumSize(null);
+        tfUsuario.setPreferredSize(new Dimension(300, 30));
         tfUsuario.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent evt) {
                 tfUsuarioKeyTyped(evt);
             }
         });
 
-        tfContrasena.setPreferredSize(new Dimension(150, 30));
+        tfContrasena.setMaximumSize(null);
+        tfContrasena.setMinimumSize(null);
+        tfContrasena.setPreferredSize(new Dimension(300, 30));
 
         btnEntrar.setText("Entrar");
         btnEntrar.setEnabled(false);
-        btnEntrar.setMaximumSize(new Dimension(100, 25));
-        btnEntrar.setMinimumSize(new Dimension(100, 25));
-        btnEntrar.setPreferredSize(new Dimension(100, 25));
+        btnEntrar.setMaximumSize(null);
+        btnEntrar.setMinimumSize(null);
+        btnEntrar.setPreferredSize(new Dimension(300, 30));
 
         cbRecordar.setText("Recordar");
 
@@ -65,7 +69,9 @@ public class UsuarioFrame extends javax.swing.JFrame {
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
-        tfRuc.setPreferredSize(new Dimension(150, 30));
+        tfRuc.setMaximumSize(null);
+        tfRuc.setMinimumSize(null);
+        tfRuc.setPreferredSize(new Dimension(300, 30));
 
         lblRuc.setFont(lblRuc.getFont().deriveFont(lblRuc.getFont().getStyle() | Font.BOLD, lblRuc.getFont().getSize()-2));
         lblRuc.setText("RUC");
@@ -92,7 +98,7 @@ public class UsuarioFrame extends javax.swing.JFrame {
                     .addComponent(lblUsername)
                     .addComponent(lblPassword)
                     .addComponent(cbRecordar)
-                    .addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, 288, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEntrar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator1, GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
