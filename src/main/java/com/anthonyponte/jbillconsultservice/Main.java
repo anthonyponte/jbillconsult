@@ -14,7 +14,7 @@ public class Main {
           FlatLaf.registerCustomDefaultsSource("com.anthonyponte.jbillconsultservice.theme");
           FlatDarkLaf.setup();
           UsuarioFrame userFrame = new UsuarioFrame();
-          new UsuarioController(userFrame).start();
+          new UsuarioController(userFrame).init();
         });
   }
 }

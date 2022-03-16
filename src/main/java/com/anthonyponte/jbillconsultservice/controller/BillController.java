@@ -22,9 +22,7 @@ import com.poiji.bind.Poiji;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Image;
 import java.awt.SystemTray;
-import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
 import java.awt.datatransfer.DataFlavor;
@@ -60,6 +58,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.kordamp.ikonli.remixicon.RemixiconMZ;
+import org.kordamp.ikonli.swing.FontIcon;
 import pe.gob.sunat.BillService;
 import pe.gob.sunat.StatusResponse;
 
@@ -76,10 +76,10 @@ public class BillController {
 
   public BillController(BillFrame frame) {
     this.frame = frame;
-    init();
+    initComponents();
   }
 
-  public void start() {
+  public void init() {
     frame.setVisible(true);
 
     frame.miImport.addActionListener(
@@ -223,7 +223,7 @@ public class BillController {
                 Transferable t = dtde.getTransferable();
                 List fileList = (List) t.getTransferData(DataFlavor.javaFileListFlavor);
 
-                if (fileList != null && fileList.size() > 0) {
+                if (fileList != null && !fileList.isEmpty()) {
                   for (Object value : fileList) {
                     if (value instanceof File) {
                       File file = (File) value;
@@ -344,7 +344,7 @@ public class BillController {
         });
   }
 
-  private void init() {
+  private void initComponents() {
     dialog = new LoadingDialog(frame, false);
     service = new BillServiceImpl();
     os = System.getProperty("os.name");
@@ -549,7 +549,7 @@ public class BillController {
               if (input == JOptionPane.OK_OPTION) {
                 frame.dispose();
                 UsuarioFrame userFrame = new UsuarioFrame();
-                new UsuarioController(userFrame).start();
+                new UsuarioController(userFrame).init();
               }
             }
           }
@@ -561,12 +561,15 @@ public class BillController {
   private void showNotification(String message, MessageType type) {
     try {
       SystemTray tray = SystemTray.getSystemTray();
-      Image image =
-          Toolkit.getDefaultToolkit().createImage(getClass().getResource("/img/trayicon.png"));
-      TrayIcon trayIcon = new TrayIcon(image, "JBillStatus");
-      trayIcon.setImageAutoSize(true);
-      tray.add(trayIcon);
-      trayIcon.displayMessage("JBillStatus", message, type);
+      TrayIcon icon =
+          new TrayIcon(
+              FontIcon.of(RemixiconMZ.NOTIFICATION_LINE, 16, Color.decode("#FFFFFF"))
+                  .toImageIcon()
+                  .getImage(),
+              "JBillConsultService");
+      icon.setImageAutoSize(true);
+      icon.displayMessage("JBillStatus", message, type);
+      tray.add(icon);
     } catch (AWTException ex) {
       Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
     }

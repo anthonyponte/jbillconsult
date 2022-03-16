@@ -17,6 +17,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import org.kordamp.ikonli.remixicon.RemixiconAL;
+import org.kordamp.ikonli.remixicon.RemixiconMZ;
 import org.kordamp.ikonli.swing.FontIcon;
 
 public class BillFrame extends javax.swing.JFrame {
@@ -39,7 +40,7 @@ public class BillFrame extends javax.swing.JFrame {
         miSignOut = new JMenuItem();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("JBillStatus");
+        setTitle("JBillConsultService");
         setMinimumSize(new Dimension(800, 600));
 
         tfFiltrar.setMaximumSize(null);
@@ -62,6 +63,7 @@ public class BillFrame extends javax.swing.JFrame {
         table.getTableHeader().setReorderingAllowed(false);
         scroll.setViewportView(table);
 
+        menu.setIcon( FontIcon.of(RemixiconMZ.MENU_LINE, 16, Color.decode("#FFFFFF")));
         menu.setText("Menu");
 
         miImport.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));

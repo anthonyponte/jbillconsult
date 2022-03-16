@@ -25,7 +25,7 @@ public class UsuarioController {
     initComponents();
   }
 
-  public void start() {
+  public void init() {
     frame.btnEntrar.addActionListener(
         (ActionEvent arg0) -> {
           try {
@@ -42,7 +42,7 @@ public class UsuarioController {
             SwingUtilities.invokeLater(
                 () -> {
                   BillFrame billFrame = new BillFrame();
-                  new BillController(billFrame).start();
+                  new BillController(billFrame).init();
                 });
           } catch (BackingStoreException ex) {
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
