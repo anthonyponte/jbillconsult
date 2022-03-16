@@ -104,6 +104,7 @@
         </Property>
       </Properties>
       <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="AbstractDocument docUsuario = (AbstractDocument) tfUsuario.getDocument();&#xa;docUsuario.setDocumentFilter(new UpperCaseFilter());"/>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
@@ -177,6 +178,9 @@
           <Dimension value="[300, 30]"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="AbstractDocument docRuc = (AbstractDocument) tfRuc.getDocument();&#xa;docRuc.setDocumentFilter(new IntegerFilter(11));"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

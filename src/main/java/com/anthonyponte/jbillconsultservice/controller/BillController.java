@@ -467,11 +467,13 @@ public class BillController {
               eventList.clear();
               eventList.addAll(bills);
 
+              frame.tfFiltrar.requestFocus();
+
               if (os.compareToIgnoreCase("linux") < 0) {
                 showNotification(
                     "Se consultaron " + bills.size() + " comprobantes", MessageType.INFO);
               }
-              
+
             } catch (InterruptedException | ExecutionException ex) {
               Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
 

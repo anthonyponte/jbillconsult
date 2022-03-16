@@ -1,5 +1,7 @@
 package com.anthonyponte.jbillconsultservice.view;
 
+import com.anthonyponte.jbillconsultservice.filter.IntegerFilter;
+import com.anthonyponte.jbillconsultservice.filter.UpperCaseFilter;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,6 +14,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
+import javax.swing.text.AbstractDocument;
 import org.kordamp.ikonli.remixicon.RemixiconAL;
 import org.kordamp.ikonli.swing.FontIcon;
 
@@ -50,6 +53,8 @@ public class UsuarioFrame extends javax.swing.JFrame {
         tfUsuario.setMaximumSize(null);
         tfUsuario.setMinimumSize(null);
         tfUsuario.setPreferredSize(new Dimension(300, 30));
+        AbstractDocument docUsuario = (AbstractDocument) tfUsuario.getDocument();
+        docUsuario.setDocumentFilter(new UpperCaseFilter());
 
         lblContasena.setFont(lblContasena.getFont().deriveFont(lblContasena.getFont().getStyle() | Font.BOLD, lblContasena.getFont().getSize()-2));
         lblContasena.setText("Contraseña");
@@ -71,6 +76,8 @@ public class UsuarioFrame extends javax.swing.JFrame {
         tfRuc.setMaximumSize(null);
         tfRuc.setMinimumSize(null);
         tfRuc.setPreferredSize(new Dimension(300, 30));
+        AbstractDocument docRuc = (AbstractDocument) tfRuc.getDocument();
+        docRuc.setDocumentFilter(new IntegerFilter(11));
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
