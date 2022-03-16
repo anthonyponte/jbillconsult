@@ -452,7 +452,7 @@ public class BillController {
                       bill.getRuc(), bill.getTipo(), bill.getSerie(), bill.getNumero());
 
               list.get(i).setStatusCode(statusResponse.getStatusCode());
-              list.get(i).setCdrStatusMessage(statusResponse.getStatusMessage());
+              list.get(i).setStatusMessage(statusResponse.getStatusMessage());
             }
             return list;
           }
@@ -471,61 +471,7 @@ public class BillController {
                 showNotification(
                     "Se consultaron " + bills.size() + " comprobantes", MessageType.INFO);
               }
-
-              TableCellRenderer renderer =
-                  new DefaultTableCellRenderer() {
-                    @Override
-                    public Component getTableCellRendererComponent(
-                        JTable table,
-                        Object value,
-                        boolean isSelected,
-                        boolean hasFocus,
-                        int row,
-                        int column) {
-
-                      JLabel label =
-                          (JLabel)
-                              super.getTableCellRendererComponent(
-                                  table, value, isSelected, hasFocus, row, column);
-
-                      Bill bill = model.getElementAt(row);
-
-                      switch (bill.getStatusCode()) {
-                        case "0001":
-                          label.setForeground(Color.decode("#AED581"));
-                          break;
-                        case "0002":
-                          label.setForeground(Color.decode("#FFF176"));
-                          break;
-                        case "0003":
-                          label.setForeground(Color.decode("#E57373"));
-                          break;
-                        case "0004":
-                        case "0005":
-                        case "0006":
-                        case "0007":
-                        case "0008":
-                        case "0009":
-                        case "0010":
-                        case "0011":
-                        case "0012":
-                          label.setForeground(Color.decode("#BBBBBB"));
-                          break;
-                      }
-
-                      return label;
-                    }
-                  };
-
-              frame.table.getColumnModel().getColumn(5).setCellRenderer(renderer);
-
-              TableColumnModel tcm = frame.table.getColumnModel();
-              tcm.getColumn(0).setPreferredWidth(100);
-              tcm.getColumn(1).setPreferredWidth(50);
-              tcm.getColumn(2).setPreferredWidth(50);
-              tcm.getColumn(3).setPreferredWidth(100);
-              tcm.getColumn(4).setPreferredWidth(50);
-              tcm.getColumn(5).setPreferredWidth(350);
+              
             } catch (InterruptedException | ExecutionException ex) {
               Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
 
