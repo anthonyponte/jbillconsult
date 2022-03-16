@@ -26,17 +26,13 @@ public class UsuarioController {
   }
 
   public void start() {
-    frame.tfRuc.getDocument().addDocumentListener(dl);
-    frame.tfUsuario.getDocument().addDocumentListener(dl);
-    frame.tfContrasena.getDocument().addDocumentListener(dl);
-
     frame.btnEntrar.addActionListener(
         (ActionEvent arg0) -> {
           try {
             if (frame.cbRecordar.isSelected()) {
               prefs.put(RUC, frame.tfRuc.getText());
               prefs.put(USUARIO, frame.tfUsuario.getText());
-              prefs.put(CONTRASENA, Arrays.toString(frame.tfContrasena.getPassword()));
+              prefs.put(CONTRASENA, String.valueOf(frame.tfContrasena.getPassword()));
             } else {
               prefs.clear();
             }
@@ -52,6 +48,10 @@ public class UsuarioController {
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
           }
         });
+
+    frame.tfRuc.getDocument().addDocumentListener(dl);
+    frame.tfUsuario.getDocument().addDocumentListener(dl);
+    frame.tfContrasena.getDocument().addDocumentListener(dl);
   }
 
   private void initComponents() {
@@ -62,11 +62,11 @@ public class UsuarioController {
     String ruc = prefs.get(RUC, "");
     String username = prefs.get(USUARIO, "");
     String contrasena = prefs.get(CONTRASENA, "");
-    if (!ruc.isEmpty() && !username.isEmpty()) {
+    if (!ruc.isEmpty() && !username.isEmpty() && !contrasena.isEmpty()) {
+      frame.btnEntrar.requestFocus();
       frame.tfRuc.setText(ruc);
       frame.tfUsuario.setText(username);
       frame.tfContrasena.setText(contrasena);
-      frame.btnEntrar.requestFocus();
       frame.cbRecordar.setSelected(true);
     } else {
       frame.tfRuc.requestFocus();
@@ -78,21 +78,21 @@ public class UsuarioController {
       new DocumentListener() {
         @Override
         public void insertUpdate(DocumentEvent arg0) {
-          enableBtnLogIn();
+          enable();
         }
 
         @Override
         public void removeUpdate(DocumentEvent arg0) {
-          enableBtnLogIn();
+          enable();
         }
 
         @Override
         public void changedUpdate(DocumentEvent arg0) {
-          enableBtnLogIn();
+          enable();
         }
       };
 
-  private void enableBtnLogIn() {
+  private void enable() {
     if (frame.tfRuc.getText().length() < 11
         || frame.tfUsuario.getText().length() < 7
         || frame.tfContrasena.getPassword().length < 7) {

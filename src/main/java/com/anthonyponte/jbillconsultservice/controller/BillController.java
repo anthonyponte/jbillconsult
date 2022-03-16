@@ -1,6 +1,5 @@
 package com.anthonyponte.jbillconsultservice.controller;
 
-import com.anthonyponte.jbillconsultservice.view.BillFrame;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.FilterList;
@@ -16,6 +15,7 @@ import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 import com.anthonyponte.jbillconsultservice.pojo.Bill;
 import com.anthonyponte.jbillconsultservice.impl.BillServiceImpl;
+import com.anthonyponte.jbillconsultservice.view.BillFrame;
 import com.anthonyponte.jbillconsultservice.view.LoadingDialog;
 import com.anthonyponte.jbillconsultservice.view.UsuarioFrame;
 import com.poiji.bind.Poiji;
@@ -65,27 +65,24 @@ import pe.gob.sunat.StatusResponse;
 
 public class BillController {
 
-  private final BillFrame billFrame;
-  private final LoadingDialog loadingDialog;
-  private final BillService service;
-  private final String os;
+  private final BillFrame frame;
+  private LoadingDialog dialog;
+  private BillService service;
+  private String os;
   private EventList<Bill> eventList;
   private SortedList<Bill> sortedList;
   private AdvancedListSelectionModel<Bill> selectionModel;
   private AdvancedTableModel<Bill> model;
 
-  public BillController(BillFrame billFrame) {
-    this.billFrame = billFrame;
-    this.loadingDialog = new LoadingDialog(billFrame, false);
-    this.service = new BillServiceImpl();
-    os = System.getProperty("os.name");
+  public BillController(BillFrame frame) {
+    this.frame = frame;
     init();
   }
 
   public void start() {
-    billFrame.setVisible(true);
+    frame.setVisible(true);
 
-    billFrame.miImport.addActionListener(
+    frame.miImport.addActionListener(
         (ActionEvent arg0) -> {
           JFileChooser chooser = new JFileChooser();
           chooser.setDialogTitle("Importar Excel");
@@ -95,14 +92,14 @@ public class BillController {
               new FileNameExtensionFilter("Archivo Excel", "xls", "xlsx"));
           chooser.setCurrentDirectory(new File("."));
 
-          int result = chooser.showOpenDialog(billFrame);
+          int result = chooser.showOpenDialog(frame);
           if (result == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             setToTable(file);
           }
         });
 
-    billFrame.miExport.addActionListener(
+    frame.miExport.addActionListener(
         (ActionEvent arg0) -> {
           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
           String dateString = format.format(new Date());
@@ -115,7 +112,7 @@ public class BillController {
           chooser.setSelectedFile(new File(dateString.concat(".xlsx")));
           chooser.setCurrentDirectory(new File("."));
 
-          int result = chooser.showSaveDialog(billFrame);
+          int result = chooser.showSaveDialog(frame);
           if (result == JFileChooser.APPROVE_OPTION) {
 
             SwingWorker worker =
@@ -123,10 +120,10 @@ public class BillController {
                   @Override
                   protected XSSFWorkbook doInBackground() throws Exception {
 
-                    loadingDialog.setVisible(true);
-                    loadingDialog.setLocationRelativeTo(billFrame);
-                    loadingDialog.progressBar.setMinimum(0);
-                    loadingDialog.progressBar.setMaximum(model.getRowCount());
+                    dialog.setVisible(true);
+                    dialog.setLocationRelativeTo(frame);
+                    dialog.progressBar.setMinimum(0);
+                    dialog.progressBar.setMaximum(model.getRowCount());
 
                     XSSFWorkbook workbook = new XSSFWorkbook();
                     XSSFSheet sheet = workbook.createSheet("Comprobantes");
@@ -180,7 +177,7 @@ public class BillController {
 
                   @Override
                   protected void process(List<Integer> chunks) {
-                    loadingDialog.progressBar.setValue(chunks.get(0));
+                    dialog.progressBar.setValue(chunks.get(0));
                   }
 
                   @Override
@@ -193,7 +190,7 @@ public class BillController {
                         workbook.write(out);
                       }
 
-                      loadingDialog.dispose();
+                      dialog.dispose();
 
                       if (os.compareToIgnoreCase("linux") < 0) {
                         showNotification(
@@ -211,12 +208,12 @@ public class BillController {
           }
         });
 
-    billFrame.miSignOut.addActionListener(
+    frame.miSignOut.addActionListener(
         (ActionEvent arg0) -> {
           System.exit(0);
         });
 
-    billFrame.scroll.setDropTarget(
+    frame.scroll.setDropTarget(
         new DropTarget() {
           @Override
           public synchronized void drop(DropTargetDropEvent dtde) {
@@ -238,7 +235,7 @@ public class BillController {
                 Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
 
                 JOptionPane.showMessageDialog(
-                    billFrame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
               }
             } else {
               dtde.rejectDrop();
@@ -246,7 +243,7 @@ public class BillController {
           }
         });
 
-    billFrame.table.addMouseListener(
+    frame.table.addMouseListener(
         new MouseAdapter() {
           @Override
           public void mouseClicked(MouseEvent e) {
@@ -261,11 +258,11 @@ public class BillController {
                     new SwingWorker<Bill, Integer>() {
                       @Override
                       protected Bill doInBackground() throws Exception {
-                        loadingDialog.setVisible(true);
-                        loadingDialog.setLocationRelativeTo(billFrame);
+                        dialog.setVisible(true);
+                        dialog.setLocationRelativeTo(frame);
 
-                        loadingDialog.progressBar.setMinimum(0);
-                        loadingDialog.progressBar.setMaximum(100);
+                        dialog.progressBar.setMinimum(0);
+                        dialog.progressBar.setMaximum(100);
 
                         publish(0);
                         StatusResponse statusResponse =
@@ -285,13 +282,13 @@ public class BillController {
 
                       @Override
                       protected void process(List<Integer> chunks) {
-                        loadingDialog.progressBar.setValue(chunks.get(0));
+                        dialog.progressBar.setValue(chunks.get(0));
                       }
 
                       @Override
                       protected void done() {
                         try {
-                          loadingDialog.dispose();
+                          dialog.dispose();
 
                           Bill bill = get();
 
@@ -316,7 +313,7 @@ public class BillController {
                                         + bill.getNumero()
                                         + ".zip"));
 
-                            int result = chooser.showSaveDialog(billFrame);
+                            int result = chooser.showSaveDialog(frame);
                             if (result == JFileChooser.APPROVE_OPTION) {
                               File file = chooser.getSelectedFile().getAbsoluteFile();
                               try (FileOutputStream fout =
@@ -348,6 +345,10 @@ public class BillController {
   }
 
   private void init() {
+    dialog = new LoadingDialog(frame, false);
+    service = new BillServiceImpl();
+    os = System.getProperty("os.name");
+
     eventList = new BasicEventList<>();
 
     Comparator comparator =
@@ -366,7 +367,7 @@ public class BillController {
         };
 
     MatcherEditor<Bill> matcherEditor =
-        new TextComponentMatcherEditor<>(this.billFrame.tfFilter, textFilterator);
+        new TextComponentMatcherEditor<>(this.frame.tfFiltrar, textFilterator);
 
     FilterList<Bill> filterList = new FilterList<>(sortedList, matcherEditor);
 
@@ -424,17 +425,19 @@ public class BillController {
 
     selectionModel = new DefaultEventSelectionModel<>(filterList);
 
-    billFrame.table.setModel(model);
+    frame.table.setModel(model);
 
-    billFrame.table.setSelectionModel(selectionModel);
+    frame.table.setSelectionModel(selectionModel);
 
     TableComparatorChooser.install(
-        billFrame.table, sortedList, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+        frame.table, sortedList, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+
+    frame.table.requestFocus();
   }
 
   private void setToTable(File file) {
-    loadingDialog.setVisible(true);
-    loadingDialog.setLocationRelativeTo(billFrame);
+    dialog.setVisible(true);
+    dialog.setLocationRelativeTo(frame);
 
     SwingWorker worker =
         new SwingWorker<List<Bill>, Void>() {
@@ -457,7 +460,7 @@ public class BillController {
           @Override
           protected void done() {
             try {
-              loadingDialog.dispose();
+              dialog.dispose();
 
               List<Bill> bills = get();
 
@@ -514,9 +517,9 @@ public class BillController {
                     }
                   };
 
-              billFrame.table.getColumnModel().getColumn(5).setCellRenderer(renderer);
+              frame.table.getColumnModel().getColumn(5).setCellRenderer(renderer);
 
-              TableColumnModel tcm = billFrame.table.getColumnModel();
+              TableColumnModel tcm = frame.table.getColumnModel();
               tcm.getColumn(0).setPreferredWidth(100);
               tcm.getColumn(1).setPreferredWidth(50);
               tcm.getColumn(2).setPreferredWidth(50);
@@ -526,7 +529,7 @@ public class BillController {
             } catch (InterruptedException | ExecutionException ex) {
               Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
 
-              loadingDialog.dispose();
+              dialog.dispose();
 
               if (os.compareToIgnoreCase("linux") < 0) {
                 showNotification("Error en clave SOL", MessageType.ERROR);
@@ -534,7 +537,7 @@ public class BillController {
 
               int input =
                   JOptionPane.showOptionDialog(
-                      billFrame,
+                      frame,
                       ex.getMessage(),
                       "Error",
                       JOptionPane.DEFAULT_OPTION,
@@ -544,7 +547,7 @@ public class BillController {
                       null);
 
               if (input == JOptionPane.OK_OPTION) {
-                billFrame.dispose();
+                frame.dispose();
                 UsuarioFrame userFrame = new UsuarioFrame();
                 new UsuarioController(userFrame).start();
               }

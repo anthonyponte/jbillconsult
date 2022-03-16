@@ -78,7 +78,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="scroll" pref="874" max="32767" attributes="0"/>
-                  <Component id="tfFilter" alignment="1" max="32767" attributes="0"/>
+                  <Component id="tfFiltrar" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -88,7 +88,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="tfFilter" min="-2" max="-2" attributes="0"/>
+              <Component id="tfFiltrar" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="scroll" pref="521" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -97,7 +97,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="tfFilter">
+    <Component class="javax.swing.JTextField" name="tfFiltrar">
       <Properties>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="null"/>
@@ -109,6 +109,9 @@
           <Dimension value="[150, 30]"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="tfFiltrar.putClientProperty(&quot;JTextField.leadingIcon&quot;, FontIcon.of(RemixiconAL.FILTER_LINE, 16, Color.decode(&quot;#FFFFFF&quot;)));&#xa;tfFiltrar.putClientProperty(&quot;JTextField.placeholderText&quot;, &quot;Filtrar&quot;);&#xa;tfFiltrar.putClientProperty(&quot;JTextField.showClearButton&quot;, true);"/>
+      </AuxValues>
     </Component>
     <Container class="javax.swing.JScrollPane" name="scroll">
       <AuxValues>
