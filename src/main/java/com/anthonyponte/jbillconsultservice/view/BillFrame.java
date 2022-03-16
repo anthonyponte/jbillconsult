@@ -1,5 +1,6 @@
 package com.anthonyponte.jbillconsultservice.view;
 
+import com.anthonyponte.jbillconsultservice.filter.LetterNumberFilter;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.InputEvent;
@@ -13,9 +14,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
-import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.AbstractDocument;
 import org.kordamp.ikonli.remixicon.RemixiconAL;
 import org.kordamp.ikonli.remixicon.RemixiconMZ;
 import org.kordamp.ikonli.swing.FontIcon;
@@ -30,28 +31,30 @@ public class BillFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tfFiltrar = new javax.swing.JTextField();
-        scroll = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
-        menuBar = new javax.swing.JMenuBar();
-        menu = new javax.swing.JMenu();
-        miImport = new javax.swing.JMenuItem();
-        miExport = new javax.swing.JMenuItem();
-        miSignOut = new javax.swing.JMenuItem();
+        tfFiltrar = new JTextField();
+        scroll = new JScrollPane();
+        table = new JTable();
+        menuBar = new JMenuBar();
+        menu = new JMenu();
+        miImport = new JMenuItem();
+        miExport = new JMenuItem();
+        miSignOut = new JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("JBillConsultService");
-        setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setMinimumSize(new Dimension(800, 600));
+        setPreferredSize(new Dimension(800, 600));
 
         tfFiltrar.setMaximumSize(null);
         tfFiltrar.setMinimumSize(null);
-        tfFiltrar.setPreferredSize(new java.awt.Dimension(150, 30));
+        tfFiltrar.setPreferredSize(new Dimension(150, 30));
+        AbstractDocument document = (AbstractDocument) tfFiltrar.getDocument();
+        document.setDocumentFilter(new LetterNumberFilter());
         tfFiltrar.putClientProperty("JTextField.leadingIcon", FontIcon.of(RemixiconAL.FILTER_LINE, 16, Color.decode("#FFFFFF")));
         tfFiltrar.putClientProperty("JTextField.placeholderText", "Filtrar");
         tfFiltrar.putClientProperty("JTextField.showClearButton", true);
 
-        table.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new DefaultTableModel(
             new Object [][] {
 
             },
@@ -59,21 +62,21 @@ public class BillFrame extends javax.swing.JFrame {
 
             }
         ));
-        table.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         scroll.setViewportView(table);
 
         menu.setIcon( FontIcon.of(RemixiconMZ.MENU_LINE, 16, Color.decode("#FFFFFF")));
         menu.setText("Menu");
 
-        miImport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        miImport.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
         miImport.setText("Importar");
         menu.add(miImport);
 
-        miExport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        miExport.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
         miExport.setText("Exportar");
         menu.add(miExport);
 
-        miSignOut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        miSignOut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
         miSignOut.setText("Salir");
         menu.add(miSignOut);
 
@@ -81,23 +84,21 @@ public class BillFrame extends javax.swing.JFrame {
 
         setJMenuBar(menuBar);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfFiltrar, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(tfFiltrar, GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
                     .addComponent(scroll))
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tfFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfFiltrar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scroll)
                 .addContainerGap())
         );
@@ -107,13 +108,13 @@ public class BillFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JMenu menu;
-    public javax.swing.JMenuBar menuBar;
-    public javax.swing.JMenuItem miExport;
-    public javax.swing.JMenuItem miImport;
-    public javax.swing.JMenuItem miSignOut;
-    public javax.swing.JScrollPane scroll;
-    public javax.swing.JTable table;
-    public javax.swing.JTextField tfFiltrar;
+    public JMenu menu;
+    public JMenuBar menuBar;
+    public JMenuItem miExport;
+    public JMenuItem miImport;
+    public JMenuItem miSignOut;
+    public JScrollPane scroll;
+    public JTable table;
+    public JTextField tfFiltrar;
     // End of variables declaration//GEN-END:variables
 }
