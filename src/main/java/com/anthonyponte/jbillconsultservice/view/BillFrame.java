@@ -62,7 +62,7 @@ public class BillFrame extends javax.swing.JFrame {
 
             }
         ));
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        table.getTableHeader().setReorderingAllowed(false);
         scroll.setViewportView(table);
 
         menu.setIcon( FontIcon.of(RemixiconMZ.MENU_LINE, 16, Color.decode("#FFFFFF")));
