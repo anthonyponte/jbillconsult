@@ -3,7 +3,6 @@ package com.anthonyponte.jbillconsultservice.controller;
 import com.anthonyponte.jbillconsultservice.view.BillFrame;
 import com.anthonyponte.jbillconsultservice.view.UsuarioFrame;
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
@@ -63,14 +62,16 @@ public class UsuarioController {
     String username = prefs.get(USUARIO, "");
     String contrasena = prefs.get(CONTRASENA, "");
     if (!ruc.isEmpty() && !username.isEmpty() && !contrasena.isEmpty()) {
-      frame.btnEntrar.requestFocus();
       frame.tfRuc.setText(ruc);
       frame.tfUsuario.setText(username);
       frame.tfContrasena.setText(contrasena);
       frame.cbRecordar.setSelected(true);
+      frame.btnEntrar.setEnabled(true);
+      frame.btnEntrar.requestFocus();
     } else {
       frame.tfRuc.requestFocus();
       frame.cbRecordar.setSelected(false);
+      frame.btnEntrar.setEnabled(false);
     }
   }
 
@@ -78,21 +79,21 @@ public class UsuarioController {
       new DocumentListener() {
         @Override
         public void insertUpdate(DocumentEvent arg0) {
-          enable();
+          enabled();
         }
 
         @Override
         public void removeUpdate(DocumentEvent arg0) {
-          enable();
+          enabled();
         }
 
         @Override
         public void changedUpdate(DocumentEvent arg0) {
-          enable();
+          enabled();
         }
       };
 
-  private void enable() {
+  private void enabled() {
     if (frame.tfRuc.getText().length() < 11
         || frame.tfUsuario.getText().length() < 7
         || frame.tfContrasena.getPassword().length < 7) {

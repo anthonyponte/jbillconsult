@@ -68,7 +68,6 @@ public class UsuarioFrame extends javax.swing.JFrame {
 
         btnEntrar.setIcon(FontIcon.of(RemixiconAL.LOGIN_BOX_LINE, 16, Color.decode("#FFFFFF")));
         btnEntrar.setText("Entrar");
-        btnEntrar.setEnabled(false);
         btnEntrar.setMaximumSize(null);
         btnEntrar.setMinimumSize(null);
         btnEntrar.setPreferredSize(new Dimension(300, 30));

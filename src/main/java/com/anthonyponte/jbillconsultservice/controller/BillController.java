@@ -21,7 +21,6 @@ import com.anthonyponte.jbillconsultservice.view.UsuarioFrame;
 import com.poiji.bind.Poiji;
 import java.awt.AWTException;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
@@ -46,14 +45,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -80,8 +74,6 @@ public class BillController {
   }
 
   public void init() {
-    frame.setVisible(true);
-
     frame.miImport.addActionListener(
         (ActionEvent arg0) -> {
           JFileChooser chooser = new JFileChooser();
@@ -348,7 +340,6 @@ public class BillController {
     dialog = new LoadingDialog(frame, false);
     service = new BillServiceImpl();
     os = System.getProperty("os.name");
-
     eventList = new BasicEventList<>();
 
     Comparator comparator =
@@ -431,6 +422,8 @@ public class BillController {
 
     TableComparatorChooser.install(
         frame.table, sortedList, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
+
+    frame.setVisible(true);
 
     frame.table.requestFocus();
   }
