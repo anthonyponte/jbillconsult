@@ -36,9 +36,9 @@ public class BillFrame extends javax.swing.JFrame {
         table = new JTable();
         menuBar = new JMenuBar();
         menu = new JMenu();
-        miImport = new JMenuItem();
-        miExport = new JMenuItem();
-        miSignOut = new JMenuItem();
+        miImportar = new JMenuItem();
+        miExportar = new JMenuItem();
+        miSalir = new JMenuItem();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("JBillConsultService");
@@ -68,17 +68,17 @@ public class BillFrame extends javax.swing.JFrame {
         menu.setIcon( FontIcon.of(RemixiconMZ.MENU_LINE, 16, Color.decode("#FFFFFF")));
         menu.setText("Menu");
 
-        miImport.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
-        miImport.setText("Importar");
-        menu.add(miImport);
+        miImportar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
+        miImportar.setText("Importar");
+        menu.add(miImportar);
 
-        miExport.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
-        miExport.setText("Exportar");
-        menu.add(miExport);
+        miExportar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
+        miExportar.setText("Exportar");
+        menu.add(miExportar);
 
-        miSignOut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
-        miSignOut.setText("Salir");
-        menu.add(miSignOut);
+        miSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
+        miSalir.setText("Salir");
+        menu.add(miSalir);
 
         menuBar.add(menu);
 
@@ -110,9 +110,9 @@ public class BillFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public JMenu menu;
     public JMenuBar menuBar;
-    public JMenuItem miExport;
-    public JMenuItem miImport;
-    public JMenuItem miSignOut;
+    public JMenuItem miExportar;
+    public JMenuItem miImportar;
+    public JMenuItem miSalir;
     public JScrollPane scroll;
     public JTable table;
     public JTextField tfFiltrar;

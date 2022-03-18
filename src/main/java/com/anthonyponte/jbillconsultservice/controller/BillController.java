@@ -75,7 +75,7 @@ public class BillController {
   }
 
   public void init() {
-    frame.miImport.addActionListener(
+    frame.miImportar.addActionListener(
         (ActionEvent arg0) -> {
           JFileChooser chooser = new JFileChooser();
           chooser.setDialogTitle("Importar Excel");
@@ -92,7 +92,7 @@ public class BillController {
           }
         });
 
-    frame.miExport.addActionListener(
+    frame.miExportar.addActionListener(
         (ActionEvent arg0) -> {
           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
           String dateString = format.format(new Date());
@@ -201,7 +201,7 @@ public class BillController {
           }
         });
 
-    frame.miSignOut.addActionListener(
+    frame.miSalir.addActionListener(
         (ActionEvent arg0) -> {
           int input =
               JOptionPane.showConfirmDialog(
