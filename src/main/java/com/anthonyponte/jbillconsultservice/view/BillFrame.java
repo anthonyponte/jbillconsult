@@ -42,6 +42,7 @@ public class BillFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("JBillConsultService");
+        setIconImage(FontIcon.of(RemixiconMZ.TABLE_FILL, 256, Color.decode("#88090B")).toImageIcon().getImage());
         setMinimumSize(new Dimension(800, 600));
         setPreferredSize(new Dimension(800, 600));
 
