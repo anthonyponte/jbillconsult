@@ -33,6 +33,7 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -202,7 +203,16 @@ public class BillController {
 
     frame.miSignOut.addActionListener(
         (ActionEvent arg0) -> {
-          System.exit(0);
+          int input =
+              JOptionPane.showConfirmDialog(
+                  frame,
+                  "Seguro que desea salir?",
+                  "Salir",
+                  JOptionPane.YES_NO_OPTION,
+                  JOptionPane.QUESTION_MESSAGE);
+          if (input == JOptionPane.YES_OPTION) {
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+          }
         });
 
     frame.scroll.setDropTarget(
