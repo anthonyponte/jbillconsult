@@ -17,6 +17,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+I"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="FontIcon.of(RemixiconAL.FILE_UPLOAD_LINE, 16, Color.decode(&quot;#FFFFFF&quot;))" type="code"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Importar"/>
               </Properties>
               <AuxValues>
@@ -28,6 +31,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+E"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="FontIcon.of(RemixiconAL.FILE_DOWNLOAD_LINE, 16, Color.decode(&quot;#FFFFFF&quot;))" type="code"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Exportar"/>
               </Properties>
               <AuxValues>
@@ -38,6 +44,9 @@
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+Q"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="FontIcon.of(RemixiconAL.LOGOUT_BOX_LINE, 16, Color.decode(&quot;#FFFFFF&quot;))" type="code"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salir"/>
               </Properties>

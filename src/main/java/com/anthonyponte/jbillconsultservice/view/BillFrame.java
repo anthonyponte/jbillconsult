@@ -71,14 +71,17 @@ public class BillFrame extends javax.swing.JFrame {
         menu.setText("Menu");
 
         miImportar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
+        miImportar.setIcon(FontIcon.of(RemixiconAL.FILE_UPLOAD_LINE, 16, Color.decode("#FFFFFF")));
         miImportar.setText("Importar");
         menu.add(miImportar);
 
         miExportar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
+        miExportar.setIcon(FontIcon.of(RemixiconAL.FILE_DOWNLOAD_LINE, 16, Color.decode("#FFFFFF")));
         miExportar.setText("Exportar");
         menu.add(miExportar);
 
         miSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
+        miSalir.setIcon(FontIcon.of(RemixiconAL.LOGOUT_BOX_LINE, 16, Color.decode("#FFFFFF")));
         miSalir.setText("Salir");
         menu.add(miSalir);
 
