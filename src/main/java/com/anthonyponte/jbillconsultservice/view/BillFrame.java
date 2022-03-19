@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -42,7 +43,7 @@ public class BillFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("JBillConsultService");
-        setIconImage(FontIcon.of(RemixiconMZ.TABLE_FILL, 256, Color.decode("#88090B")).toImageIcon().getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/JBillConsultService.png")).getImage());
         setMinimumSize(new Dimension(800, 600));
         setPreferredSize(new Dimension(800, 600));
 

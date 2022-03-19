@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -40,6 +41,7 @@ public class UsuarioFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Clave SOL");
+        setIconImage(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/JBillConsultService.png")).getImage());
         setIconImages(null);
         setResizable(false);
 
