@@ -3,8 +3,11 @@ package com.anthonyponte.jbillconsultservice.view;
 import com.anthonyponte.jbillconsultservice.filter.LetterNumberFilter;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JMenu;
@@ -25,6 +28,13 @@ import org.kordamp.ikonli.swing.FontIcon;
 public class BillFrame extends javax.swing.JFrame {
 
     public BillFrame() {
+        list = new ArrayList<>();
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/16x16.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/32x32.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/64x64.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/128x128.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/256x256.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/512x512.png")).getImage());
         initComponents();
     }
 
@@ -43,7 +53,7 @@ public class BillFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("JBillConsultService");
-        setIconImage(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/JBillConsultService.png")).getImage());
+        setIconImages(list);
         setMinimumSize(new Dimension(800, 600));
         setPreferredSize(new Dimension(800, 600));
 
@@ -95,7 +105,7 @@ public class BillFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(tfFiltrar, GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
+                    .addComponent(tfFiltrar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(scroll))
                 .addContainerGap())
         );
@@ -112,6 +122,7 @@ public class BillFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private List<Image> list;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public JMenu menu;
     public JMenuBar menuBar;

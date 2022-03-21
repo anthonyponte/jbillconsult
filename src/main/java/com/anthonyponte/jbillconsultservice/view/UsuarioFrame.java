@@ -5,6 +5,9 @@ import com.anthonyponte.jbillconsultservice.filter.UpperCaseFilter;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +25,13 @@ import org.kordamp.ikonli.swing.FontIcon;
 public class UsuarioFrame extends javax.swing.JFrame {
 
     public UsuarioFrame() {
+        list = new ArrayList<>();
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/16x16.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/32x32.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/64x64.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/128x128.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/256x256.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/512x512.png")).getImage());
         initComponents();
     }
 
@@ -41,8 +51,7 @@ public class UsuarioFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Clave SOL");
-        setIconImage(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/JBillConsultService.png")).getImage());
-        setIconImages(null);
+        setIconImages(list);
         setResizable(false);
 
         lblRuc.setFont(lblRuc.getFont().deriveFont(lblRuc.getFont().getStyle() | Font.BOLD, lblRuc.getFont().getSize()-2));
@@ -125,6 +134,7 @@ public class UsuarioFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private List<Image> list;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public JButton btnEntrar;
     public JCheckBox cbRecordar;
