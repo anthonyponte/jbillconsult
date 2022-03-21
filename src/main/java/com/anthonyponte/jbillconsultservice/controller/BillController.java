@@ -21,6 +21,7 @@ import com.anthonyponte.jbillconsultservice.view.UsuarioFrame;
 import com.poiji.bind.Poiji;
 import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
@@ -47,8 +48,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -470,6 +474,8 @@ public class BillController {
               eventList.clear();
               eventList.addAll(bills);
 
+              resize(frame.table);
+
               frame.tfFiltrar.requestFocus();
 
               if (os.compareToIgnoreCase("linux") < 0) {
@@ -508,6 +514,21 @@ public class BillController {
 
     worker.execute();
   }
+  
+  public void resize(JTable table) {
+    TableColumnModel columnModel = table.getColumnModel();
+    for (int column = 0; column < table.getColumnCount(); column++) {
+        int width = 100;
+        for (int row = 0; row < table.getRowCount(); row++) {
+            TableCellRenderer renderer = table.getCellRenderer(row, column);
+            Component comp = table.prepareRenderer(renderer, row, column);
+            width = Math.max(comp.getPreferredSize().width +1 , width);
+        }
+        if(width > 300)
+            width=300;
+        columnModel.getColumn(column).setPreferredWidth(width);
+    }
+}
 
   private void showNotification(String message, MessageType type) {
     try {
