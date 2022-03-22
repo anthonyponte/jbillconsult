@@ -12,7 +12,7 @@ import javax.swing.text.DocumentFilter;
 
 /** @author AnthonyPonte */
 public class LetterNumberFilter extends DocumentFilter {
-  private final Pattern regexCheck = Pattern.compile("[A-Za-z0-9]+");
+  private final Pattern regexCheck = Pattern.compile("[a-zA-Z0-9]+");
 
   @Override
   public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)

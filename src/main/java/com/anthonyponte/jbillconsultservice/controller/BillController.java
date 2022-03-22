@@ -298,6 +298,8 @@ public class BillController {
 
                           Bill bill = get();
 
+                          System.out.println(".done() "+bill);
+
                           if (os.compareToIgnoreCase("linux") < 0) {
                             showNotification(
                                 bill.getCdrStatusCode() + " - " + bill.getCdrStatusMessage(),
