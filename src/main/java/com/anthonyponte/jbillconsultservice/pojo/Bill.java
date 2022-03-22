@@ -145,6 +145,18 @@ public class Bill {
         + serie
         + ", numero="
         + numero
+        + ", statusCode="
+        + statusCode
+        + ", statusMessage="
+        + statusMessage
+        + ", content="
+        + content
+        + ", cdrStatusCode="
+        + cdrStatusCode
+        + ", cdrStatusMessage="
+        + cdrStatusMessage
+        + ", cdrContent="
+        + cdrContent
         + '}';
   }
 }

@@ -1,4 +1,9 @@
-![](https://github.com/anthonyrponte/JBillConsultService/blob/master/src/main/resources/com/anthonyponte/jbillconsultservice/img/256x256.png?raw=true) 
 # JBillConsultService
 Implementacion java del servicio web de consultas de SUNAT
-
+## Requisitos
+JDK 11
+## Carateristicas
+Consultar masivamente estado de facturas, nota de credito y nota de debito que empiezan con la serie "F"
+Descargar CDR de aceptacion o rechazo
+Exportar a .xlsx
+## Licencia
