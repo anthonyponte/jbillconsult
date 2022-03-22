@@ -180,11 +180,11 @@ public class BillController {
                   @Override
                   protected void done() {
                     try {
-                      XSSFWorkbook workbook = get();
+                      XSSFWorkbook get = get();
                       File file = chooser.getSelectedFile();
 
                       try (FileOutputStream out = new FileOutputStream(file)) {
-                        workbook.write(out);
+                        get.write(out);
                       }
 
                       dialog.dispose();
@@ -295,27 +295,27 @@ public class BillController {
                         try {
                           dialog.dispose();
 
-                          Bill bill = get();
+                          Bill get = get();
 
                           if (os.compareToIgnoreCase("linux") < 0) {
                             showNotification(
-                                bill.getCdrStatusCode() + " - " + bill.getCdrStatusMessage(),
+                                get.getCdrStatusCode() + " - " + get.getCdrStatusMessage(),
                                 MessageType.INFO);
                           }
 
-                          if (bill.getCdrStatusCode().equals("0004")) {
+                          if (get.getCdrStatusCode().equals("0004")) {
                             JFileChooser chooser = new JFileChooser();
                             chooser.setCurrentDirectory(new File("."));
                             chooser.setSelectedFile(
                                 new File(
                                     "R-"
-                                        + bill.getRuc()
+                                        + get.getRuc()
                                         + "-"
-                                        + bill.getNumero()
+                                        + get.getNumero()
                                         + "-"
-                                        + bill.getSerie()
+                                        + get.getSerie()
                                         + "-"
-                                        + bill.getNumero()
+                                        + get.getNumero()
                                         + ".zip"));
 
                             int result = chooser.showSaveDialog(frame);
@@ -323,7 +323,7 @@ public class BillController {
                               File file = chooser.getSelectedFile().getAbsoluteFile();
                               try (FileOutputStream fout =
                                   new FileOutputStream(file.getParent() + "//" + file.getName())) {
-                                fout.write(bill.getCdrContent());
+                                fout.write(get.getCdrContent());
                                 fout.flush();
                                 fout.close();
                               } catch (FileNotFoundException ex) {
@@ -337,8 +337,8 @@ public class BillController {
                           } else {
                             JOptionPane.showMessageDialog(
                                 frame,
-                                bill.getCdrStatusMessage(),
-                                bill.getCdrStatusCode(),
+                                get.getCdrStatusMessage(),
+                                get.getCdrStatusCode(),
                                 JOptionPane.ERROR_MESSAGE);
                           }
                         } catch (InterruptedException | ExecutionException ex) {
@@ -476,10 +476,10 @@ public class BillController {
             try {
               dialog.dispose();
 
-              List<Bill> bills = get();
+              List<Bill> get = get();
 
               eventList.clear();
-              eventList.addAll(bills);
+              eventList.addAll(get);
 
               resize(frame.table);
 
@@ -487,7 +487,7 @@ public class BillController {
 
               if (os.compareToIgnoreCase("linux") < 0) {
                 showNotification(
-                    "Se consultaron " + bills.size() + " comprobantes", MessageType.INFO);
+                    "Se consultaron " + get.size() + " comprobantes", MessageType.INFO);
               }
 
             } catch (InterruptedException | ExecutionException ex) {
