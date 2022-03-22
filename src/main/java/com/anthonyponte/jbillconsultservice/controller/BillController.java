@@ -239,7 +239,6 @@ public class BillController {
                 }
               } catch (UnsupportedFlavorException | IOException ex) {
                 Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
-
                 JOptionPane.showMessageDialog(
                     frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
               }
@@ -298,8 +297,6 @@ public class BillController {
 
                           Bill bill = get();
 
-                          System.out.println(".done() "+bill);
-
                           if (os.compareToIgnoreCase("linux") < 0) {
                             showNotification(
                                 bill.getCdrStatusCode() + " - " + bill.getCdrStatusMessage(),
@@ -337,10 +334,18 @@ public class BillController {
                                     .log(Level.SEVERE, null, ex);
                               }
                             }
+                          } else {
+                            JOptionPane.showMessageDialog(
+                                frame,
+                                bill.getCdrStatusMessage(),
+                                bill.getCdrStatusCode(),
+                                JOptionPane.ERROR_MESSAGE);
                           }
                         } catch (InterruptedException | ExecutionException ex) {
                           Logger.getLogger(BillController.class.getName())
                               .log(Level.SEVERE, null, ex);
+                          JOptionPane.showMessageDialog(
+                              frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                         }
                       }
                     };
