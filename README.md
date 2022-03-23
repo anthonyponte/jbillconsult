@@ -7,4 +7,4 @@ JDK 11
 * Descargar el CDR de aceptación o rechazo
 * Exportar a Excel (.xlsx)
 ## Licencia
-Este proyecto está bajo la Licencia [https://www.gnu.org/licenses/gpl-3.0.html] (GNU General Public License v3.0) - mira el archivo [LICENSE.md](LICENSE.md) para detalles
+Este proyecto está bajo la Licencia [GNU General Public License v3.0] (https://www.gnu.org/licenses/gpl-3.0.html) - mira el archivo [LICENSE.md](LICENSE.md) para detalles
