@@ -197,6 +197,8 @@ public class BillController {
                       }
                     } catch (InterruptedException | ExecutionException | IOException ex) {
                       Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
+                      JOptionPane.showMessageDialog(
+                          frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     }
                   }
                 };
@@ -334,9 +336,13 @@ public class BillController {
                               } catch (FileNotFoundException ex) {
                                 Logger.getLogger(BillController.class.getName())
                                     .log(Level.SEVERE, null, ex);
+                                JOptionPane.showMessageDialog(
+                                    frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                               } catch (IOException ex) {
                                 Logger.getLogger(BillController.class.getName())
                                     .log(Level.SEVERE, null, ex);
+                                JOptionPane.showMessageDialog(
+                                    frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                               }
                             }
                           } else {
@@ -555,6 +561,7 @@ public class BillController {
       tray.add(icon);
     } catch (AWTException ex) {
       Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
+      JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
   }
 }
