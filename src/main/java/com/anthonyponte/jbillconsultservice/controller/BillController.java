@@ -82,7 +82,7 @@ public class BillController {
     frame.miImportar.addActionListener(
         (ActionEvent arg0) -> {
           JFileChooser chooser = new JFileChooser();
-          chooser.setDialogTitle("Importar Excel");
+          chooser.setDialogTitle("Importar");
           chooser.setApproveButtonText("Importar");
           chooser.setAcceptAllFileFilterUsed(false);
           chooser.addChoosableFileFilter(
@@ -102,10 +102,10 @@ public class BillController {
           String dateString = format.format(new Date());
 
           JFileChooser chooser = new JFileChooser();
-          chooser.setDialogTitle("Exportar Excel");
+          chooser.setDialogTitle("Exportar");
           chooser.setApproveButtonText("Exportar");
           chooser.setAcceptAllFileFilterUsed(false);
-          chooser.addChoosableFileFilter(new FileNameExtensionFilter("Archivo Excel file", "xlsx"));
+          chooser.addChoosableFileFilter(new FileNameExtensionFilter("Archivo Excel", "xlsx"));
           chooser.setSelectedFile(new File(dateString.concat(".xlsx")));
           chooser.setCurrentDirectory(new File("."));
 
@@ -305,6 +305,11 @@ public class BillController {
 
                           if (get.getCdrStatusCode().equals("0004")) {
                             JFileChooser chooser = new JFileChooser();
+                            chooser.setDialogTitle("Guardar");
+                            chooser.setApproveButtonText("Guardar");
+                            chooser.setAcceptAllFileFilterUsed(false);
+                            chooser.addChoosableFileFilter(
+                                new FileNameExtensionFilter("Archivo Zip", "zip"));
                             chooser.setCurrentDirectory(new File("."));
                             chooser.setSelectedFile(
                                 new File(

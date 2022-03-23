@@ -20,7 +20,7 @@ public class LoadingDialog extends javax.swing.JDialog {
         progressBar.setIndeterminate(true);
         progressBar.setMaximumSize(null);
         progressBar.setMinimumSize(null);
-        progressBar.setPreferredSize(new java.awt.Dimension(300, 25));
+        progressBar.setPreferredSize(new java.awt.Dimension(300, 15));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -35,7 +35,7 @@ public class LoadingDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
