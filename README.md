@@ -1,7 +1,7 @@
-![logo](https://github.com/anthonyrponte/JBillConsultService/blob/master/res/logo.png)
+![logo](https://github.com/anthonyrponte/JBillConsultService/blob/master/res/128x128.png)
 # JBillConsultService
 Implementación java del servicio web de consultas de SUNAT
-![screenshot](https://github.com/anthonyrponte/JBillConsultService/blob/master/res/screenshot.png)
+![screenshot](https://github.com/anthonyrponte/JBillConsultService/blob/master/res/2022-06-05_13_27_06-JBillConsultService.png)
 ## Requisitos
 Java 11
 ## Informacion
