@@ -11,9 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.JOptionPane;
-import pe.gob.sunat.BillConsultService;
-import pe.gob.sunat.BillService;
-import pe.gob.sunat.StatusResponse;
+import sunat.gob.pe.BillConsultService;
+import sunat.gob.pe.BillService;
+import sunat.gob.pe.StatusResponse;
 
 public class BillServiceImpl implements BillService {
 
