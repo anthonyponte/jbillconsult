@@ -57,8 +57,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.kordamp.ikonli.remixicon.RemixiconMZ;
 import org.kordamp.ikonli.swing.FontIcon;
-import pe.gob.sunat.BillService;
-import pe.gob.sunat.StatusResponse;
+import sunat.gob.pe.BillService;
+import sunat.gob.pe.StatusResponse;
 
 public class BillController {
 
