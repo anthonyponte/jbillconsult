@@ -44,8 +44,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -196,7 +194,6 @@ public class BillController {
                             MessageType.INFO);
                       }
                     } catch (InterruptedException | ExecutionException | IOException ex) {
-                      Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
                       JOptionPane.showMessageDialog(
                           frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -240,7 +237,6 @@ public class BillController {
                   }
                 }
               } catch (UnsupportedFlavorException | IOException ex) {
-                Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(
                     frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
               }
@@ -334,13 +330,9 @@ public class BillController {
                                 fout.flush();
                                 fout.close();
                               } catch (FileNotFoundException ex) {
-                                Logger.getLogger(BillController.class.getName())
-                                    .log(Level.SEVERE, null, ex);
                                 JOptionPane.showMessageDialog(
                                     frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                               } catch (IOException ex) {
-                                Logger.getLogger(BillController.class.getName())
-                                    .log(Level.SEVERE, null, ex);
                                 JOptionPane.showMessageDialog(
                                     frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                               }
@@ -353,8 +345,6 @@ public class BillController {
                                 JOptionPane.ERROR_MESSAGE);
                           }
                         } catch (InterruptedException | ExecutionException ex) {
-                          Logger.getLogger(BillController.class.getName())
-                              .log(Level.SEVERE, null, ex);
                           JOptionPane.showMessageDialog(
                               frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                         }
@@ -566,7 +556,6 @@ public class BillController {
       icon.displayMessage("JBillStatus", message, type);
       tray.add(icon);
     } catch (AWTException ex) {
-      Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
       JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
   }
