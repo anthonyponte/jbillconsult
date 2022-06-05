@@ -468,63 +468,69 @@ public class BillController {
         new SwingWorker<List<Bill>, Void>() {
           @Override
           protected List<Bill> doInBackground() throws Exception {
-            List<Bill> list = Poiji.fromExcel(file, Bill.class);
-            for (int i = 0; i < list.size(); i++) {
-              Bill bill = (Bill) list.get(i);
+            List<Bill> list = null;
+            try {
+              list = Poiji.fromExcel(file, Bill.class);
+              for (int i = 0; i < list.size(); i++) {
+                Bill bill = (Bill) list.get(i);
 
-              StatusResponse statusResponse =
-                  service.getStatus(
-                      bill.getRuc(), bill.getTipo(), bill.getSerie(), bill.getNumero());
+                StatusResponse statusResponse =
+                    service.getStatus(
+                        bill.getRuc(), bill.getTipo(), bill.getSerie(), bill.getNumero());
 
-              list.get(i).setStatusCode(statusResponse.getStatusCode());
-              list.get(i).setStatusMessage(statusResponse.getStatusMessage());
+                list.get(i).setStatusCode(statusResponse.getStatusCode());
+                list.get(i).setStatusMessage(statusResponse.getStatusMessage());
+              }
+            } catch (Exception ex) {
+              cancel(true);
+
+              JOptionPane.showMessageDialog(
+                  null, ex.getMessage(), BillController.class.getName(), JOptionPane.ERROR_MESSAGE);
             }
             return list;
           }
 
           @Override
           protected void done() {
-            try {
-              dialog.dispose();
+            dialog.dispose();
 
-              List<Bill> get = get();
+            if (!isCancelled()) {
+              try {
+                List<Bill> get = get();
 
-              eventList.clear();
-              eventList.addAll(get);
+                eventList.clear();
+                eventList.addAll(get);
 
-              resize(frame.table);
+                resize(frame.table);
 
-              frame.tfFiltrar.requestFocus();
+                frame.tfFiltrar.requestFocus();
 
-              if (os.compareToIgnoreCase("linux") < 0) {
-                showNotification(
-                    "Se consultaron " + get.size() + " comprobantes", MessageType.INFO);
-              }
+                if (os.compareToIgnoreCase("linux") < 0) {
+                  showNotification(
+                      "Se consultaron " + get.size() + " comprobantes", MessageType.INFO);
+                }
 
-            } catch (InterruptedException | ExecutionException ex) {
-              Logger.getLogger(BillController.class.getName()).log(Level.SEVERE, null, ex);
+              } catch (InterruptedException | ExecutionException ex) {
+                if (os.compareToIgnoreCase("linux") < 0) {
+                  showNotification("Error en clave SOL", MessageType.ERROR);
+                }
 
-              dialog.dispose();
+                int input =
+                    JOptionPane.showOptionDialog(
+                        frame,
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.ERROR_MESSAGE,
+                        null,
+                        null,
+                        null);
 
-              if (os.compareToIgnoreCase("linux") < 0) {
-                showNotification("Error en clave SOL", MessageType.ERROR);
-              }
-
-              int input =
-                  JOptionPane.showOptionDialog(
-                      frame,
-                      ex.getMessage(),
-                      "Error",
-                      JOptionPane.DEFAULT_OPTION,
-                      JOptionPane.ERROR_MESSAGE,
-                      null,
-                      null,
-                      null);
-
-              if (input == JOptionPane.OK_OPTION) {
-                frame.dispose();
-                UsuarioFrame userFrame = new UsuarioFrame();
-                new UsuarioController(userFrame).init();
+                if (input == JOptionPane.OK_OPTION) {
+                  frame.dispose();
+                  UsuarioFrame userFrame = new UsuarioFrame();
+                  new UsuarioController(userFrame).init();
+                }
               }
             }
           }
