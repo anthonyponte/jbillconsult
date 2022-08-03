@@ -35,6 +35,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -206,16 +207,7 @@ public class BillController {
 
     frame.miSalir.addActionListener(
         (ActionEvent arg0) -> {
-          int input =
-              JOptionPane.showConfirmDialog(
-                  frame,
-                  "Seguro que desea salir?",
-                  "Salir",
-                  JOptionPane.YES_NO_OPTION,
-                  JOptionPane.QUESTION_MESSAGE);
-          if (input == JOptionPane.YES_OPTION) {
-            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-          }
+          finnish();
         });
 
     frame.scroll.setDropTarget(
@@ -355,6 +347,32 @@ public class BillController {
               }
             }
           }
+        });
+
+    frame.addWindowListener(
+        new WindowListener() {
+          @Override
+          public void windowOpened(WindowEvent e) {}
+
+          @Override
+          public void windowClosing(WindowEvent e) {
+            finnish();
+          }
+
+          @Override
+          public void windowClosed(WindowEvent e) {}
+
+          @Override
+          public void windowIconified(WindowEvent e) {}
+
+          @Override
+          public void windowDeiconified(WindowEvent e) {}
+
+          @Override
+          public void windowActivated(WindowEvent e) {}
+
+          @Override
+          public void windowDeactivated(WindowEvent e) {}
         });
   }
 
@@ -528,6 +546,8 @@ public class BillController {
 
     worker.execute();
   }
+
+  private void finnish() {}
 
   public void resize(JTable table) {
     TableColumnModel columnModel = table.getColumnModel();
