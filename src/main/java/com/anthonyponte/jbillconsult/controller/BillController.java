@@ -154,7 +154,7 @@ public class BillController {
                             cell.setCellValue(bill.getSerie());
                             break;
                           case 3:
-                            cell.setCellValue(bill.getNumero());
+                            cell.setCellValue(bill.getCorrelativo());
                             break;
                           case 4:
                             cell.setCellValue(bill.getCdrStatusCode());
@@ -196,7 +196,10 @@ public class BillController {
                       }
                     } catch (InterruptedException | ExecutionException | IOException ex) {
                       JOptionPane.showMessageDialog(
-                          frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                          frame,
+                          ex.getMessage(),
+                          Bill.class.getSimpleName(),
+                          JOptionPane.ERROR_MESSAGE);
                     }
                   }
                 };
@@ -230,7 +233,7 @@ public class BillController {
                 }
               } catch (UnsupportedFlavorException | IOException ex) {
                 JOptionPane.showMessageDialog(
-                    frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    frame, ex.getMessage(), Bill.class.getSimpleName(), JOptionPane.ERROR_MESSAGE);
               }
             } else {
               dtde.rejectDrop();
@@ -265,7 +268,7 @@ public class BillController {
                                 selected.getRuc(),
                                 selected.getTipo(),
                                 selected.getSerie(),
-                                selected.getNumero());
+                                selected.getCorrelativo());
 
                         selected.setCdrStatusCode(statusResponse.getStatusCode());
                         selected.setCdrStatusMessage(statusResponse.getStatusMessage());
@@ -306,11 +309,11 @@ public class BillController {
                                     "R-"
                                         + get.getRuc()
                                         + "-"
-                                        + get.getNumero()
+                                        + get.getCorrelativo()
                                         + "-"
                                         + get.getSerie()
                                         + "-"
-                                        + get.getNumero()
+                                        + get.getCorrelativo()
                                         + ".zip"));
 
                             int result = chooser.showSaveDialog(frame);
@@ -323,10 +326,16 @@ public class BillController {
                                 fout.close();
                               } catch (FileNotFoundException ex) {
                                 JOptionPane.showMessageDialog(
-                                    frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                                    frame,
+                                    ex.getMessage(),
+                                    Bill.class.getSimpleName(),
+                                    JOptionPane.ERROR_MESSAGE);
                               } catch (IOException ex) {
                                 JOptionPane.showMessageDialog(
-                                    frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                                    frame,
+                                    ex.getMessage(),
+                                    Bill.class.getSimpleName(),
+                                    JOptionPane.ERROR_MESSAGE);
                               }
                             }
                           } else {
@@ -338,7 +347,10 @@ public class BillController {
                           }
                         } catch (InterruptedException | ExecutionException ex) {
                           JOptionPane.showMessageDialog(
-                              frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                              frame,
+                              ex.getMessage(),
+                              Bill.class.getSimpleName(),
+                              JOptionPane.ERROR_MESSAGE);
                         }
                       }
                     };
@@ -383,7 +395,7 @@ public class BillController {
     eventList = new BasicEventList<>();
 
     Comparator comparator =
-        (Comparator<Bill>) (Bill o1, Bill o2) -> o1.getNumero() - o2.getNumero();
+        (Comparator<Bill>) (Bill o1, Bill o2) -> o1.getCorrelativo() - o2.getCorrelativo();
 
     sortedList = new SortedList<>(eventList, comparator);
 
@@ -392,7 +404,7 @@ public class BillController {
           baseList.add(element.getRuc());
           baseList.add(element.getTipo());
           baseList.add(element.getSerie());
-          baseList.add(String.valueOf(element.getNumero()));
+          baseList.add(String.valueOf(element.getCorrelativo()));
           baseList.add(element.getStatusCode());
           baseList.add(element.getStatusMessage());
         };
@@ -419,7 +431,7 @@ public class BillController {
               case 2:
                 return "Serie";
               case 3:
-                return "Numero";
+                return "Correlativo";
               case 4:
                 return "Codigo";
               case 5:
@@ -440,7 +452,7 @@ public class BillController {
               case 2:
                 return baseObject.getSerie();
               case 3:
-                return baseObject.getNumero();
+                return baseObject.getCorrelativo();
               case 4:
                 return baseObject.getStatusCode();
               case 5:
@@ -484,7 +496,7 @@ public class BillController {
 
                 StatusResponse statusResponse =
                     service.getStatus(
-                        bill.getRuc(), bill.getTipo(), bill.getSerie(), bill.getNumero());
+                        bill.getRuc(), bill.getTipo(), bill.getSerie(), bill.getCorrelativo());
 
                 list.get(i).setStatusCode(statusResponse.getStatusCode());
                 list.get(i).setStatusMessage(statusResponse.getStatusMessage());
@@ -547,7 +559,17 @@ public class BillController {
     worker.execute();
   }
 
-  private void finnish() {}
+  private void finnish() {
+    int input =
+        JOptionPane.showConfirmDialog(
+            frame,
+            "Seguro que desea salir?",
+            "Salir",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
+
+    if (input == JOptionPane.YES_OPTION) frame.dispose();
+  }
 
   public void resize(JTable table) {
     TableColumnModel columnModel = table.getColumnModel();
@@ -571,9 +593,9 @@ public class BillController {
               FontIcon.of(RemixiconMZ.NOTIFICATION_LINE, 16, Color.decode("#FFFFFF"))
                   .toImageIcon()
                   .getImage(),
-              "JBillConsultService");
+              "JBillConsult");
       icon.setImageAutoSize(true);
-      icon.displayMessage("JBillStatus", message, type);
+      icon.displayMessage("JBillConsult", message, type);
       tray.add(icon);
     } catch (AWTException ex) {
       JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
