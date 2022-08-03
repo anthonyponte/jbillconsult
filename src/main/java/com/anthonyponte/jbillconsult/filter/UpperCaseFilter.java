@@ -3,26 +3,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package com.anthonyponte.jbillconsultservice.filter;
+package com.anthonyponte.jbillconsult.filter;
 
-import java.util.regex.Pattern;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
-/** @author AnthonyPonte */
-public class LetterNumberFilter extends DocumentFilter {
-  private final Pattern regexCheck = Pattern.compile("[a-zA-Z0-9 ]+");
+/** @author anthony */
+public class UpperCaseFilter extends DocumentFilter {
 
   @Override
   public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
       throws BadLocationException {
-    if (regexCheck.matcher(string).matches()) super.insertString(fb, offset, string, attr);
+    super.insertString(fb, offset, string.toUpperCase(), attr);
   }
 
   @Override
   public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
       throws BadLocationException {
-    if (regexCheck.matcher(text).matches()) super.replace(fb, offset, length, text, attrs);
+    super.replace(fb, offset, length, text.toUpperCase(), attrs);
   }
 }

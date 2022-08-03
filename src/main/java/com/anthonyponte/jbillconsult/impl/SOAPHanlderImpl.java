@@ -1,4 +1,4 @@
-package com.anthonyponte.jbillconsultservice.impl;
+package com.anthonyponte.jbillconsult.impl;
 
 import jakarta.xml.soap.SOAPElement;
 import jakarta.xml.soap.SOAPEnvelope;

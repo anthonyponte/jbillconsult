@@ -1,6 +1,6 @@
-package com.anthonyponte.jbillconsultservice.view;
+package com.anthonyponte.jbillconsult.view;
 
-import com.anthonyponte.jbillconsultservice.filter.LetterNumberFilter;
+import com.anthonyponte.jbillconsult.filter.LetterNumberFilter;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -29,12 +29,12 @@ public class BillFrame extends javax.swing.JFrame {
 
     public BillFrame() {
         list = new ArrayList<>();
-        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/16x16.png")).getImage());
-        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/32x32.png")).getImage());
-        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/64x64.png")).getImage());
-        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/128x128.png")).getImage());
-        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/256x256.png")).getImage());
-        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/512x512.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsult/img/16x16.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsult/img/32x32.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsult/img/64x64.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsult/img/128x128.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsult/img/256x256.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsult/img/512x512.png")).getImage());
         initComponents();
     }
 
@@ -52,7 +52,7 @@ public class BillFrame extends javax.swing.JFrame {
         miSalir = new JMenuItem();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("JBillConsultService");
+        setTitle("JBillConsult");
         setIconImages(list);
         setMinimumSize(new Dimension(800, 600));
         setPreferredSize(new Dimension(800, 600));

@@ -1,4 +1,4 @@
-package com.anthonyponte.jbillconsultservice.pojo;
+package com.anthonyponte.jbillconsult.pojo;
 
 import com.poiji.annotation.ExcelCellName;
 

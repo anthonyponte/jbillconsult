@@ -1,4 +1,4 @@
-package com.anthonyponte.jbillconsultservice.controller;
+package com.anthonyponte.jbillconsult.controller;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
@@ -13,11 +13,11 @@ import ca.odell.glazedlists.swing.DefaultEventSelectionModel;
 import static ca.odell.glazedlists.swing.GlazedListsSwing.eventTableModelWithThreadProxyList;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
-import com.anthonyponte.jbillconsultservice.pojo.Bill;
-import com.anthonyponte.jbillconsultservice.impl.BillServiceImpl;
-import com.anthonyponte.jbillconsultservice.view.BillFrame;
-import com.anthonyponte.jbillconsultservice.view.LoadingDialog;
-import com.anthonyponte.jbillconsultservice.view.UsuarioFrame;
+import com.anthonyponte.jbillconsult.pojo.Bill;
+import com.anthonyponte.jbillconsult.impl.BillServiceImpl;
+import com.anthonyponte.jbillconsult.view.BillFrame;
+import com.anthonyponte.jbillconsult.view.LoadingDialog;
+import com.anthonyponte.jbillconsult.view.UsuarioFrame;
 import com.poiji.bind.Poiji;
 import java.awt.AWTException;
 import java.awt.Color;

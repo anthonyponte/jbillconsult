@@ -1,7 +1,7 @@
-package com.anthonyponte.jbillconsultservice.view;
+package com.anthonyponte.jbillconsult.view;
 
-import com.anthonyponte.jbillconsultservice.filter.IntegerFilter;
-import com.anthonyponte.jbillconsultservice.filter.UpperCaseFilter;
+import com.anthonyponte.jbillconsult.filter.IntegerFilter;
+import com.anthonyponte.jbillconsult.filter.UpperCaseFilter;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -26,12 +26,12 @@ public class UsuarioFrame extends javax.swing.JFrame {
 
     public UsuarioFrame() {
         list = new ArrayList<>();
-        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/16x16.png")).getImage());
-        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/32x32.png")).getImage());
-        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/64x64.png")).getImage());
-        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/128x128.png")).getImage());
-        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/256x256.png")).getImage());
-        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsultservice/img/512x512.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsult/img/16x16.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsult/img/32x32.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsult/img/64x64.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsult/img/128x128.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsult/img/256x256.png")).getImage());
+        list.add(new ImageIcon(getClass().getResource("/com/anthonyponte/jbillconsult/img/512x512.png")).getImage());
         initComponents();
     }
 
@@ -40,6 +40,7 @@ public class UsuarioFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         lblRuc = new JLabel();
+        tfRuc = new JTextField();
         lblUsuario = new JLabel();
         tfUsuario = new JTextField();
         lblContasena = new JLabel();
@@ -47,7 +48,6 @@ public class UsuarioFrame extends javax.swing.JFrame {
         separator = new JSeparator();
         cbRecordar = new JCheckBox();
         btnEntrar = new JButton();
-        tfRuc = new JTextField();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Clave SOL");
@@ -57,6 +57,12 @@ public class UsuarioFrame extends javax.swing.JFrame {
         lblRuc.setFont(lblRuc.getFont().deriveFont(lblRuc.getFont().getStyle() | Font.BOLD, lblRuc.getFont().getSize()-2));
         lblRuc.setText("RUC");
         lblRuc.setRequestFocusEnabled(false);
+
+        tfRuc.setMaximumSize(null);
+        tfRuc.setMinimumSize(null);
+        tfRuc.setPreferredSize(new Dimension(300, 30));
+        AbstractDocument docRuc = (AbstractDocument) tfRuc.getDocument();
+        docRuc.setDocumentFilter(new IntegerFilter(11));
 
         lblUsuario.setFont(lblUsuario.getFont().deriveFont(lblUsuario.getFont().getStyle() | Font.BOLD, lblUsuario.getFont().getSize()-2));
         lblUsuario.setText("Usuario");
@@ -83,12 +89,6 @@ public class UsuarioFrame extends javax.swing.JFrame {
         btnEntrar.setMaximumSize(null);
         btnEntrar.setMinimumSize(null);
         btnEntrar.setPreferredSize(new Dimension(300, 30));
-
-        tfRuc.setMaximumSize(null);
-        tfRuc.setMinimumSize(null);
-        tfRuc.setPreferredSize(new Dimension(300, 30));
-        AbstractDocument docRuc = (AbstractDocument) tfRuc.getDocument();
-        docRuc.setDocumentFilter(new IntegerFilter(11));
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
