@@ -19,12 +19,7 @@ import com.anthonyponte.jbillconsult.view.BillFrame;
 import com.anthonyponte.jbillconsult.view.LoadingDialog;
 import com.anthonyponte.jbillconsult.view.UsuarioFrame;
 import com.poiji.bind.Poiji;
-import java.awt.AWTException;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
-import java.awt.TrayIcon.MessageType;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -56,8 +51,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.kordamp.ikonli.remixicon.RemixiconMZ;
-import org.kordamp.ikonli.swing.FontIcon;
 import sunat.gob.pe.BillService;
 import sunat.gob.pe.StatusResponse;
 
@@ -66,7 +59,6 @@ public class BillController {
   private final BillFrame frame;
   private LoadingDialog dialog;
   private BillService service;
-  private String os;
   private EventList<Bill> eventList;
   private SortedList<Bill> sortedList;
   private AdvancedListSelectionModel<Bill> selectionModel;
@@ -187,13 +179,6 @@ public class BillController {
                       }
 
                       dialog.dispose();
-
-                      if (os.compareToIgnoreCase("linux") < 0) {
-                        showNotification(
-                            "Se exporto correctamente el archivo en la ruta "
-                                + file.getAbsolutePath(),
-                            MessageType.INFO);
-                      }
                     } catch (InterruptedException | ExecutionException | IOException ex) {
                       JOptionPane.showMessageDialog(
                           frame,
@@ -290,12 +275,6 @@ public class BillController {
 
                           Bill get = get();
 
-                          if (os.compareToIgnoreCase("linux") < 0) {
-                            showNotification(
-                                get.getCdrStatusCode() + " - " + get.getCdrStatusMessage(),
-                                MessageType.INFO);
-                          }
-
                           if (get.getCdrStatusCode().equals("0004")) {
                             JFileChooser chooser = new JFileChooser();
                             chooser.setDialogTitle("Guardar");
@@ -391,7 +370,6 @@ public class BillController {
   private void initComponents() {
     dialog = new LoadingDialog(frame, false);
     service = new BillServiceImpl();
-    os = System.getProperty("os.name");
     eventList = new BasicEventList<>();
 
     Comparator comparator =
@@ -524,17 +502,7 @@ public class BillController {
                 resize(frame.table);
 
                 frame.tfFiltrar.requestFocus();
-
-                if (os.compareToIgnoreCase("linux") < 0) {
-                  showNotification(
-                      "Se consultaron " + get.size() + " comprobantes", MessageType.INFO);
-                }
-
               } catch (InterruptedException | ExecutionException ex) {
-                if (os.compareToIgnoreCase("linux") < 0) {
-                  showNotification("Error en clave SOL", MessageType.ERROR);
-                }
-
                 int input =
                     JOptionPane.showOptionDialog(
                         frame,
@@ -582,23 +550,6 @@ public class BillController {
       }
       if (width > 300) width = 300;
       columnModel.getColumn(column).setPreferredWidth(width);
-    }
-  }
-
-  private void showNotification(String message, MessageType type) {
-    try {
-      SystemTray tray = SystemTray.getSystemTray();
-      TrayIcon icon =
-          new TrayIcon(
-              FontIcon.of(RemixiconMZ.NOTIFICATION_LINE, 16, Color.decode("#FFFFFF"))
-                  .toImageIcon()
-                  .getImage(),
-              "JBillConsult");
-      icon.setImageAutoSize(true);
-      icon.displayMessage("JBillConsult", message, type);
-      tray.add(icon);
-    } catch (AWTException ex) {
-      JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
   }
 }
