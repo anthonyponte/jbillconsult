@@ -1,4 +1,4 @@
-package com.anthonyponte.jbillconsultservice.view;
+package com.anthonyponte.jbillconsult.view;
 
 public class LoadingDialog extends javax.swing.JDialog {
 

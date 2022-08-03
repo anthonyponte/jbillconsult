@@ -1,7 +1,7 @@
-package com.anthonyponte.jbillconsultservice.controller;
+package com.anthonyponte.jbillconsult.controller;
 
-import com.anthonyponte.jbillconsultservice.view.BillFrame;
-import com.anthonyponte.jbillconsultservice.view.UsuarioFrame;
+import com.anthonyponte.jbillconsult.view.BillFrame;
+import com.anthonyponte.jbillconsult.view.UsuarioFrame;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;

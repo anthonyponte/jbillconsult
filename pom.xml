@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
     
     <!-- The Basics -->
-    <groupId>com.anthonyponte.jbillconsultservice</groupId>
-    <artifactId>JBillConsultService</artifactId>
+    <groupId>com.anthonyponte.jbillconsult</groupId>
+    <artifactId>JBillConsult</artifactId>
     <version>1.1.3</version>
     <dependencies>           
         <dependency>
@@ -175,6 +175,6 @@
     </build>    
     
     <!-- More Project Information -->
-    <name>JBillConsultService</name>
+    <name>JBillConsult</name>
     <description>Implementacion java del servicio web de consultas de SUNAT</description> 
 </project>

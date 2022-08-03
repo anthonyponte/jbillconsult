@@ -1,6 +1,6 @@
-package com.anthonyponte.jbillconsultservice.impl;
+package com.anthonyponte.jbillconsult.impl;
 
-import com.anthonyponte.jbillconsultservice.controller.UsuarioController;
+import com.anthonyponte.jbillconsult.controller.UsuarioController;
 import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.handler.Handler;
 import jakarta.xml.ws.handler.soap.SOAPHandler;
