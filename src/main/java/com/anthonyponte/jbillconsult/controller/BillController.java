@@ -70,7 +70,7 @@ public class BillController {
   }
 
   public void init() {
-    frame.miImportar.addActionListener(
+    frame.btnImportar.addActionListener(
         (ActionEvent arg0) -> {
           JFileChooser chooser = new JFileChooser();
           chooser.setDialogTitle("Importar");
@@ -87,7 +87,7 @@ public class BillController {
           }
         });
 
-    frame.miExportar.addActionListener(
+    frame.btnExportar.addActionListener(
         (ActionEvent arg0) -> {
           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
           String dateString = format.format(new Date());
@@ -191,11 +191,6 @@ public class BillController {
 
             worker.execute();
           }
-        });
-
-    frame.miSalir.addActionListener(
-        (ActionEvent arg0) -> {
-          finnish();
         });
 
     frame.scroll.setDropTarget(
@@ -347,7 +342,15 @@ public class BillController {
 
           @Override
           public void windowClosing(WindowEvent e) {
-            finnish();
+            int input =
+                JOptionPane.showConfirmDialog(
+                    frame,
+                    "Seguro que desea salir?",
+                    "Salir",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (input == JOptionPane.YES_OPTION) frame.dispose();
           }
 
           @Override
@@ -501,6 +504,8 @@ public class BillController {
 
                 resize(frame.table);
 
+                frame.btnExportar.setEnabled(true);
+
                 frame.tfFiltrar.requestFocus();
               } catch (InterruptedException | ExecutionException ex) {
                 int input =
@@ -525,18 +530,6 @@ public class BillController {
         };
 
     worker.execute();
-  }
-
-  private void finnish() {
-    int input =
-        JOptionPane.showConfirmDialog(
-            frame,
-            "Seguro que desea salir?",
-            "Salir",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE);
-
-    if (input == JOptionPane.YES_OPTION) frame.dispose();
   }
 
   public void resize(JTable table) {

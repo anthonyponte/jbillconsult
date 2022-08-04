@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -42,31 +43,29 @@ public class BillFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tfFiltrar = new javax.swing.JTextField();
-        scroll = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
-        menuBar = new javax.swing.JMenuBar();
-        menu = new javax.swing.JMenu();
-        miImportar = new javax.swing.JMenuItem();
-        miExportar = new javax.swing.JMenuItem();
-        miSalir = new javax.swing.JMenuItem();
+        tfFiltrar = new JTextField();
+        scroll = new JScrollPane();
+        table = new JTable();
+        btnExportar = new JButton();
+        btnImportar = new JButton();
+        menuBar = new JMenuBar();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("JBillConsult");
         setIconImages(list);
-        setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setMinimumSize(new Dimension(800, 600));
+        setPreferredSize(new Dimension(800, 600));
 
         tfFiltrar.setMaximumSize(null);
         tfFiltrar.setMinimumSize(null);
-        tfFiltrar.setPreferredSize(new java.awt.Dimension(150, 30));
+        tfFiltrar.setPreferredSize(new Dimension(150, 30));
         AbstractDocument document = (AbstractDocument) tfFiltrar.getDocument();
         document.setDocumentFilter(new LetterNumberFilter());
         tfFiltrar.putClientProperty("JTextField.leadingIcon", FontIcon.of(RemixiconAL.FILTER_LINE, 16, Color.decode("#FFFFFF")));
         tfFiltrar.putClientProperty("JTextField.placeholderText", "Filtrar");
         tfFiltrar.putClientProperty("JTextField.showClearButton", true);
 
-        table.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new DefaultTableModel(
             new Object [][] {
 
             },
@@ -77,46 +76,44 @@ public class BillFrame extends javax.swing.JFrame {
         table.getTableHeader().setReorderingAllowed(false);
         scroll.setViewportView(table);
 
-        menu.setIcon( FontIcon.of(RemixiconMZ.MENU_LINE, 16, Color.decode("#FFFFFF")));
-        menu.setText("Menu");
+        btnExportar.setIcon(FontIcon.of(RemixiconAL.FILE_EXCEL_LINE, 16, Color.decode("#FFFFFF")));
+        btnExportar.setText("Exportar");
+        btnExportar.setEnabled(false);
+        btnExportar.setPreferredSize(new Dimension(100, 30));
 
-        miImportar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        miImportar.setIcon(FontIcon.of(RemixiconAL.FILE_UPLOAD_LINE, 16, Color.decode("#FFFFFF")));
-        miImportar.setText("Importar");
-        menu.add(miImportar);
-
-        miExportar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        miExportar.setIcon(FontIcon.of(RemixiconAL.FILE_DOWNLOAD_LINE, 16, Color.decode("#FFFFFF")));
-        miExportar.setText("Exportar");
-        menu.add(miExportar);
-
-        miSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        miSalir.setIcon(FontIcon.of(RemixiconAL.LOGOUT_BOX_LINE, 16, Color.decode("#FFFFFF")));
-        miSalir.setText("Salir");
-        menu.add(miSalir);
-
-        menuBar.add(menu);
-
+        btnImportar.setIcon(FontIcon.of(RemixiconAL.FILE_SEARCH_LINE, 16, Color.decode("#FFFFFF")));
+        btnImportar.setText("Importar");
+        btnImportar.setMaximumSize(null);
+        btnImportar.setMinimumSize(null);
+        btnImportar.setPreferredSize(new Dimension(100, 30));
         setJMenuBar(menuBar);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfFiltrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(tfFiltrar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(scroll))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnImportar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnExportar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tfFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scroll)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnImportar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExportar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tfFiltrar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scroll, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -126,13 +123,11 @@ public class BillFrame extends javax.swing.JFrame {
 
     private List<Image> list;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JMenu menu;
-    public javax.swing.JMenuBar menuBar;
-    public javax.swing.JMenuItem miExportar;
-    public javax.swing.JMenuItem miImportar;
-    public javax.swing.JMenuItem miSalir;
-    public javax.swing.JScrollPane scroll;
-    public javax.swing.JTable table;
-    public javax.swing.JTextField tfFiltrar;
+    public JButton btnExportar;
+    public JButton btnImportar;
+    public JMenuBar menuBar;
+    public JScrollPane scroll;
+    public JTable table;
+    public JTextField tfFiltrar;
     // End of variables declaration//GEN-END:variables
 }
