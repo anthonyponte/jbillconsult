@@ -19,6 +19,7 @@ import com.anthonyponte.jbillconsult.view.BillFrame;
 import com.anthonyponte.jbillconsult.view.LoadingDialog;
 import com.anthonyponte.jbillconsult.view.UsuarioFrame;
 import com.poiji.bind.Poiji;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -51,6 +52,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.kordamp.ikonli.remixicon.RemixiconAL;
+import org.kordamp.ikonli.swing.FontIcon;
 import sunat.gob.pe.BillService;
 import sunat.gob.pe.StatusResponse;
 
@@ -271,45 +274,62 @@ public class BillController {
                           Bill get = get();
 
                           if (get.getCdrStatusCode().equals("0004")) {
-                            JFileChooser chooser = new JFileChooser();
-                            chooser.setDialogTitle("Guardar");
-                            chooser.setApproveButtonText("Guardar");
-                            chooser.setAcceptAllFileFilterUsed(false);
-                            chooser.addChoosableFileFilter(
-                                new FileNameExtensionFilter("Archivo Zip", "zip"));
-                            chooser.setCurrentDirectory(new File("."));
-                            chooser.setSelectedFile(
-                                new File(
-                                    "R-"
-                                        + get.getRuc()
-                                        + "-"
-                                        + get.getCorrelativo()
-                                        + "-"
-                                        + get.getSerie()
-                                        + "-"
-                                        + get.getCorrelativo()
-                                        + ".zip"));
 
-                            int result = chooser.showSaveDialog(frame);
-                            if (result == JFileChooser.APPROVE_OPTION) {
-                              File file = chooser.getSelectedFile().getAbsoluteFile();
-                              try (FileOutputStream fout =
-                                  new FileOutputStream(file.getParent() + "//" + file.getName())) {
-                                fout.write(get.getCdrContent());
-                                fout.flush();
-                                fout.close();
-                              } catch (FileNotFoundException ex) {
-                                JOptionPane.showMessageDialog(
+                            String[] options = {"Guardar CDR"};
+                            int input =
+                                JOptionPane.showOptionDialog(
                                     frame,
-                                    ex.getMessage(),
-                                    Bill.class.getSimpleName(),
-                                    JOptionPane.ERROR_MESSAGE);
-                              } catch (IOException ex) {
-                                JOptionPane.showMessageDialog(
-                                    frame,
-                                    ex.getMessage(),
-                                    Bill.class.getSimpleName(),
-                                    JOptionPane.ERROR_MESSAGE);
+                                    get.getCdrStatusMessage(),
+                                    get.getCdrStatusCode(),
+                                    JOptionPane.DEFAULT_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE,
+                                    FontIcon.of(
+                                        RemixiconAL.FILE_ZIP_LINE, 32, Color.decode("#FFFFFF")),
+                                    options,
+                                    0);
+
+                            if (input == 0) {
+                              JFileChooser chooser = new JFileChooser();
+                              chooser.setDialogTitle("Guardar");
+                              chooser.setApproveButtonText("Guardar");
+                              chooser.setAcceptAllFileFilterUsed(false);
+                              chooser.addChoosableFileFilter(
+                                  new FileNameExtensionFilter("Archivo Zip", "zip"));
+                              chooser.setCurrentDirectory(new File("."));
+                              chooser.setSelectedFile(
+                                  new File(
+                                      "R-"
+                                          + get.getRuc()
+                                          + "-"
+                                          + get.getCorrelativo()
+                                          + "-"
+                                          + get.getSerie()
+                                          + "-"
+                                          + get.getCorrelativo()
+                                          + ".zip"));
+
+                              int result = chooser.showSaveDialog(frame);
+                              if (result == JFileChooser.APPROVE_OPTION) {
+                                File file = chooser.getSelectedFile().getAbsoluteFile();
+                                try (FileOutputStream fout =
+                                    new FileOutputStream(
+                                        file.getParent() + "//" + file.getName())) {
+                                  fout.write(get.getCdrContent());
+                                  fout.flush();
+                                  fout.close();
+                                } catch (FileNotFoundException ex) {
+                                  JOptionPane.showMessageDialog(
+                                      frame,
+                                      ex.getMessage(),
+                                      Bill.class.getSimpleName(),
+                                      JOptionPane.ERROR_MESSAGE);
+                                } catch (IOException ex) {
+                                  JOptionPane.showMessageDialog(
+                                      frame,
+                                      ex.getMessage(),
+                                      Bill.class.getSimpleName(),
+                                      JOptionPane.ERROR_MESSAGE);
+                                }
                               }
                             }
                           } else {
