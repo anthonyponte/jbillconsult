@@ -234,29 +234,40 @@ public class BillController {
               if (selected.getStatusCode().equals("0001")
                   || selected.getStatusCode().equals("0002")
                   || selected.getStatusCode().equals("0003")) {
+                dialog.setVisible(true);
+                dialog.setLocationRelativeTo(frame);
 
                 SwingWorker worker =
                     new SwingWorker<Bill, Integer>() {
                       @Override
                       protected Bill doInBackground() throws Exception {
-                        dialog.setVisible(true);
-                        dialog.setLocationRelativeTo(frame);
+                        try {
+                          dialog.progressBar.setMinimum(0);
+                          dialog.progressBar.setMaximum(100);
 
-                        dialog.progressBar.setMinimum(0);
-                        dialog.progressBar.setMaximum(100);
+                          publish(0);
 
-                        publish(0);
-                        StatusResponse statusResponse =
-                            service.getStatusCdr(
-                                selected.getRuc(),
-                                selected.getTipo(),
-                                selected.getSerie(),
-                                selected.getCorrelativo());
+                          StatusResponse statusResponse =
+                              service.getStatusCdr(
+                                  selected.getRuc(),
+                                  selected.getTipo(),
+                                  selected.getSerie(),
+                                  selected.getCorrelativo());
 
-                        selected.setCdrStatusCode(statusResponse.getStatusCode());
-                        selected.setCdrStatusMessage(statusResponse.getStatusMessage());
-                        selected.setCdrContent(statusResponse.getContent());
-                        publish(100);
+                          selected.setCdrStatusCode(statusResponse.getStatusCode());
+                          selected.setCdrStatusMessage(statusResponse.getStatusMessage());
+                          selected.setCdrContent(statusResponse.getContent());
+
+                          publish(100);
+                        } catch (Exception ex) {
+                          cancel(true);
+
+                          JOptionPane.showMessageDialog(
+                              null,
+                              ex.getMessage(),
+                              BillController.class.getSimpleName(),
+                              JOptionPane.ERROR_MESSAGE);
+                        }
 
                         return selected;
                       }
@@ -486,12 +497,18 @@ public class BillController {
     dialog.setLocationRelativeTo(frame);
 
     SwingWorker worker =
-        new SwingWorker<List<Bill>, Void>() {
+        new SwingWorker<List<Bill>, Integer>() {
           @Override
           protected List<Bill> doInBackground() throws Exception {
             List<Bill> list = null;
+
             try {
               list = Poiji.fromExcel(file, Bill.class);
+              int size = list.size();
+
+              dialog.progressBar.setMinimum(0);
+              dialog.progressBar.setMaximum(size);
+
               for (int i = 0; i < list.size(); i++) {
                 Bill bill = (Bill) list.get(i);
 
@@ -501,14 +518,25 @@ public class BillController {
 
                 list.get(i).setStatusCode(statusResponse.getStatusCode());
                 list.get(i).setStatusMessage(statusResponse.getStatusMessage());
+
+                publish(i);
               }
             } catch (Exception ex) {
               cancel(true);
 
               JOptionPane.showMessageDialog(
-                  null, ex.getMessage(), BillController.class.getName(), JOptionPane.ERROR_MESSAGE);
+                  null,
+                  ex.getMessage(),
+                  BillController.class.getSimpleName(),
+                  JOptionPane.ERROR_MESSAGE);
             }
+
             return list;
+          }
+
+          @Override
+          protected void process(List<Integer> chunks) {
+            dialog.progressBar.setValue(chunks.get(0));
           }
 
           @Override
