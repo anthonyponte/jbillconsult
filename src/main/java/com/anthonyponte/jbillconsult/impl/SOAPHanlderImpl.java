@@ -9,8 +9,7 @@ import jakarta.xml.ws.handler.MessageContext;
 import jakarta.xml.ws.handler.soap.SOAPHandler;
 import jakarta.xml.ws.handler.soap.SOAPMessageContext;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.xml.namespace.QName;
 
 public class SOAPHanlderImpl implements SOAPHandler<SOAPMessageContext> {
@@ -52,7 +51,11 @@ public class SOAPHanlderImpl implements SOAPHandler<SOAPMessageContext> {
         tagUsername.addTextNode(this.username);
         tagPassword.addTextNode(this.password);
       } catch (SOAPException ex) {
-        Logger.getLogger(SOAPHanlderImpl.class.getName()).log(Level.SEVERE, null, ex);
+        JOptionPane.showMessageDialog(
+            null,
+            ex.getMessage(),
+            SOAPHanlderImpl.class.getSimpleName(),
+            JOptionPane.ERROR_MESSAGE);
       }
     }
 
@@ -60,13 +63,18 @@ public class SOAPHanlderImpl implements SOAPHandler<SOAPMessageContext> {
   }
 
   @Override
-  public boolean handleFault(SOAPMessageContext c) {
-    Boolean isRequest = (Boolean) c.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
+  public boolean handleFault(SOAPMessageContext context) {
+    Boolean isRequest = (Boolean) context.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
     if (isRequest) {
-      SOAPMessage m = c.getMessage();
-      System.out.println(
-          "com.anthonyponte.jinvoice.SOAPHanlderImpl.handleFault() " + m.getContentDescription());
+      SOAPMessage message = context.getMessage();
+
+      JOptionPane.showMessageDialog(
+          null,
+          message.getContentDescription(),
+          SOAPHanlderImpl.class.getSimpleName(),
+          JOptionPane.ERROR_MESSAGE);
     }
+
     return true;
   }
 

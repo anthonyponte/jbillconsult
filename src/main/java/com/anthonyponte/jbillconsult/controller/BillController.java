@@ -19,12 +19,7 @@ import com.anthonyponte.jbillconsult.view.BillFrame;
 import com.anthonyponte.jbillconsult.view.LoadingDialog;
 import com.anthonyponte.jbillconsult.view.UsuarioFrame;
 import com.poiji.bind.Poiji;
-import java.awt.AWTException;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
-import java.awt.TrayIcon.MessageType;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -35,6 +30,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -55,8 +51,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.kordamp.ikonli.remixicon.RemixiconMZ;
-import org.kordamp.ikonli.swing.FontIcon;
 import sunat.gob.pe.BillService;
 import sunat.gob.pe.StatusResponse;
 
@@ -65,7 +59,6 @@ public class BillController {
   private final BillFrame frame;
   private LoadingDialog dialog;
   private BillService service;
-  private String os;
   private EventList<Bill> eventList;
   private SortedList<Bill> sortedList;
   private AdvancedListSelectionModel<Bill> selectionModel;
@@ -77,7 +70,7 @@ public class BillController {
   }
 
   public void init() {
-    frame.miImportar.addActionListener(
+    frame.btnImportar.addActionListener(
         (ActionEvent arg0) -> {
           JFileChooser chooser = new JFileChooser();
           chooser.setDialogTitle("Importar");
@@ -94,7 +87,7 @@ public class BillController {
           }
         });
 
-    frame.miExportar.addActionListener(
+    frame.btnExportar.addActionListener(
         (ActionEvent arg0) -> {
           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
           String dateString = format.format(new Date());
@@ -109,14 +102,13 @@ public class BillController {
 
           int result = chooser.showSaveDialog(frame);
           if (result == JFileChooser.APPROVE_OPTION) {
+            dialog.setVisible(true);
+            dialog.setLocationRelativeTo(frame);
 
             SwingWorker worker =
                 new SwingWorker<XSSFWorkbook, Integer>() {
                   @Override
                   protected XSSFWorkbook doInBackground() throws Exception {
-
-                    dialog.setVisible(true);
-                    dialog.setLocationRelativeTo(frame);
                     dialog.progressBar.setMinimum(0);
                     dialog.progressBar.setMaximum(model.getRowCount());
 
@@ -136,7 +128,6 @@ public class BillController {
                     for (int r = 0; r < model.getRowCount(); r++) {
                       XSSFRow row = sheet.createRow(r + 1);
                       Bill bill = model.getElementAt(r);
-                      publish(r);
 
                       for (int c = 0; c < model.getColumnCount(); c++) {
                         XSSFCell cell = row.createCell(c);
@@ -153,7 +144,7 @@ public class BillController {
                             cell.setCellValue(bill.getSerie());
                             break;
                           case 3:
-                            cell.setCellValue(bill.getNumero());
+                            cell.setCellValue(bill.getCorrelativo());
                             break;
                           case 4:
                             cell.setCellValue(bill.getCdrStatusCode());
@@ -165,6 +156,8 @@ public class BillController {
                             break;
                         }
                       }
+
+                      publish(r);
                     }
 
                     return workbook;
@@ -177,6 +170,8 @@ public class BillController {
 
                   @Override
                   protected void done() {
+                    dialog.dispose();
+
                     try {
                       XSSFWorkbook get = get();
                       File file = chooser.getSelectedFile();
@@ -184,37 +179,17 @@ public class BillController {
                       try (FileOutputStream out = new FileOutputStream(file)) {
                         get.write(out);
                       }
-
-                      dialog.dispose();
-
-                      if (os.compareToIgnoreCase("linux") < 0) {
-                        showNotification(
-                            "Se exporto correctamente el archivo en la ruta "
-                                + file.getAbsolutePath(),
-                            MessageType.INFO);
-                      }
                     } catch (InterruptedException | ExecutionException | IOException ex) {
                       JOptionPane.showMessageDialog(
-                          frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                          frame,
+                          ex.getMessage(),
+                          BillController.class.getSimpleName(),
+                          JOptionPane.ERROR_MESSAGE);
                     }
                   }
                 };
 
             worker.execute();
-          }
-        });
-
-    frame.miSalir.addActionListener(
-        (ActionEvent arg0) -> {
-          int input =
-              JOptionPane.showConfirmDialog(
-                  frame,
-                  "Seguro que desea salir?",
-                  "Salir",
-                  JOptionPane.YES_NO_OPTION,
-                  JOptionPane.QUESTION_MESSAGE);
-          if (input == JOptionPane.YES_OPTION) {
-            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
           }
         });
 
@@ -238,7 +213,10 @@ public class BillController {
                 }
               } catch (UnsupportedFlavorException | IOException ex) {
                 JOptionPane.showMessageDialog(
-                    frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    frame,
+                    ex.getMessage(),
+                    BillController.class.getSimpleName(),
+                    JOptionPane.ERROR_MESSAGE);
               }
             } else {
               dtde.rejectDrop();
@@ -256,29 +234,40 @@ public class BillController {
               if (selected.getStatusCode().equals("0001")
                   || selected.getStatusCode().equals("0002")
                   || selected.getStatusCode().equals("0003")) {
+                dialog.setVisible(true);
+                dialog.setLocationRelativeTo(frame);
 
                 SwingWorker worker =
                     new SwingWorker<Bill, Integer>() {
                       @Override
                       protected Bill doInBackground() throws Exception {
-                        dialog.setVisible(true);
-                        dialog.setLocationRelativeTo(frame);
+                        try {
+                          dialog.progressBar.setMinimum(0);
+                          dialog.progressBar.setMaximum(100);
 
-                        dialog.progressBar.setMinimum(0);
-                        dialog.progressBar.setMaximum(100);
+                          publish(0);
 
-                        publish(0);
-                        StatusResponse statusResponse =
-                            service.getStatusCdr(
-                                selected.getRuc(),
-                                selected.getTipo(),
-                                selected.getSerie(),
-                                selected.getNumero());
+                          StatusResponse statusResponse =
+                              service.getStatusCdr(
+                                  selected.getRuc(),
+                                  selected.getTipo(),
+                                  selected.getSerie(),
+                                  selected.getCorrelativo());
 
-                        selected.setCdrStatusCode(statusResponse.getStatusCode());
-                        selected.setCdrStatusMessage(statusResponse.getStatusMessage());
-                        selected.setCdrContent(statusResponse.getContent());
-                        publish(100);
+                          selected.setCdrStatusCode(statusResponse.getStatusCode());
+                          selected.setCdrStatusMessage(statusResponse.getStatusMessage());
+                          selected.setCdrContent(statusResponse.getContent());
+
+                          publish(100);
+                        } catch (Exception ex) {
+                          cancel(true);
+
+                          JOptionPane.showMessageDialog(
+                              frame,
+                              ex.getMessage(),
+                              BillController.class.getSimpleName(),
+                              JOptionPane.ERROR_MESSAGE);
+                        }
 
                         return selected;
                       }
@@ -290,63 +279,84 @@ public class BillController {
 
                       @Override
                       protected void done() {
-                        try {
-                          dialog.dispose();
+                        dialog.dispose();
 
-                          Bill get = get();
+                        if (!isCancelled()) {
+                          try {
+                            Bill get = get();
 
-                          if (os.compareToIgnoreCase("linux") < 0) {
-                            showNotification(
-                                get.getCdrStatusCode() + " - " + get.getCdrStatusMessage(),
-                                MessageType.INFO);
-                          }
+                            if (get.getCdrStatusCode().equals("0004")) {
 
-                          if (get.getCdrStatusCode().equals("0004")) {
-                            JFileChooser chooser = new JFileChooser();
-                            chooser.setDialogTitle("Guardar");
-                            chooser.setApproveButtonText("Guardar");
-                            chooser.setAcceptAllFileFilterUsed(false);
-                            chooser.addChoosableFileFilter(
-                                new FileNameExtensionFilter("Archivo Zip", "zip"));
-                            chooser.setCurrentDirectory(new File("."));
-                            chooser.setSelectedFile(
-                                new File(
-                                    "R-"
-                                        + get.getRuc()
-                                        + "-"
-                                        + get.getNumero()
-                                        + "-"
-                                        + get.getSerie()
-                                        + "-"
-                                        + get.getNumero()
-                                        + ".zip"));
+                              String[] options = {"Guardar CDR"};
+                              int input =
+                                  JOptionPane.showOptionDialog(
+                                      frame,
+                                      get.getCdrStatusCode() + " - " + get.getCdrStatusMessage(),
+                                      BillController.class.getSimpleName(),
+                                      JOptionPane.DEFAULT_OPTION,
+                                      JOptionPane.INFORMATION_MESSAGE,
+                                      null,
+                                      options,
+                                      null);
 
-                            int result = chooser.showSaveDialog(frame);
-                            if (result == JFileChooser.APPROVE_OPTION) {
-                              File file = chooser.getSelectedFile().getAbsoluteFile();
-                              try (FileOutputStream fout =
-                                  new FileOutputStream(file.getParent() + "//" + file.getName())) {
-                                fout.write(get.getCdrContent());
-                                fout.flush();
-                                fout.close();
-                              } catch (FileNotFoundException ex) {
-                                JOptionPane.showMessageDialog(
-                                    frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                              } catch (IOException ex) {
-                                JOptionPane.showMessageDialog(
-                                    frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                              if (input == 0) {
+                                JFileChooser chooser = new JFileChooser();
+                                chooser.setDialogTitle("Guardar");
+                                chooser.setApproveButtonText("Guardar");
+                                chooser.setAcceptAllFileFilterUsed(false);
+                                chooser.addChoosableFileFilter(
+                                    new FileNameExtensionFilter("Archivo Zip", "zip"));
+                                chooser.setCurrentDirectory(new File("."));
+                                chooser.setSelectedFile(
+                                    new File(
+                                        "R-"
+                                            + get.getRuc()
+                                            + "-"
+                                            + get.getCorrelativo()
+                                            + "-"
+                                            + get.getSerie()
+                                            + "-"
+                                            + get.getCorrelativo()
+                                            + ".zip"));
+
+                                int result = chooser.showSaveDialog(frame);
+                                if (result == JFileChooser.APPROVE_OPTION) {
+                                  File file = chooser.getSelectedFile().getAbsoluteFile();
+                                  try (FileOutputStream fout =
+                                      new FileOutputStream(
+                                          file.getParent() + "//" + file.getName())) {
+                                    fout.write(get.getCdrContent());
+                                    fout.flush();
+                                    fout.close();
+                                  } catch (FileNotFoundException ex) {
+                                    JOptionPane.showMessageDialog(
+                                        frame,
+                                        ex.getMessage(),
+                                        BillController.class.getSimpleName(),
+                                        JOptionPane.ERROR_MESSAGE);
+                                  } catch (IOException ex) {
+                                    JOptionPane.showMessageDialog(
+                                        frame,
+                                        ex.getMessage(),
+                                        BillController.class.getSimpleName(),
+                                        JOptionPane.ERROR_MESSAGE);
+                                  }
+                                }
                               }
+                            } else {
+                              JOptionPane.showMessageDialog(
+                                  frame,
+                                  get.getCdrStatusCode() + " - " + get.getCdrStatusMessage(),
+                                  BillController.class.getSimpleName(),
+                                  JOptionPane.WARNING_MESSAGE);
                             }
-                          } else {
+                          } catch (InterruptedException | ExecutionException ex) {
                             JOptionPane.showMessageDialog(
                                 frame,
-                                get.getCdrStatusMessage(),
-                                get.getCdrStatusCode(),
+                                ex.getMessage(),
+                                BillController.class.getSimpleName(),
                                 JOptionPane.ERROR_MESSAGE);
                           }
-                        } catch (InterruptedException | ExecutionException ex) {
-                          JOptionPane.showMessageDialog(
-                              frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                         }
                       }
                     };
@@ -356,16 +366,48 @@ public class BillController {
             }
           }
         });
+
+    frame.addWindowListener(
+        new WindowListener() {
+          @Override
+          public void windowOpened(WindowEvent e) {}
+
+          @Override
+          public void windowClosing(WindowEvent e) {
+            int input =
+                JOptionPane.showConfirmDialog(
+                    frame,
+                    "Seguro que desea salir?",
+                    BillController.class.getSimpleName(),
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (input == JOptionPane.YES_OPTION) frame.dispose();
+          }
+
+          @Override
+          public void windowClosed(WindowEvent e) {}
+
+          @Override
+          public void windowIconified(WindowEvent e) {}
+
+          @Override
+          public void windowDeiconified(WindowEvent e) {}
+
+          @Override
+          public void windowActivated(WindowEvent e) {}
+
+          @Override
+          public void windowDeactivated(WindowEvent e) {}
+        });
   }
 
   private void initComponents() {
     dialog = new LoadingDialog(frame, false);
     service = new BillServiceImpl();
-    os = System.getProperty("os.name");
     eventList = new BasicEventList<>();
 
-    Comparator comparator =
-        (Comparator<Bill>) (Bill o1, Bill o2) -> o1.getNumero() - o2.getNumero();
+    Comparator<Bill> comparator = Comparator.comparing(Bill::getCorrelativo);
 
     sortedList = new SortedList<>(eventList, comparator);
 
@@ -374,7 +416,7 @@ public class BillController {
           baseList.add(element.getRuc());
           baseList.add(element.getTipo());
           baseList.add(element.getSerie());
-          baseList.add(String.valueOf(element.getNumero()));
+          baseList.add(String.valueOf(element.getCorrelativo()));
           baseList.add(element.getStatusCode());
           baseList.add(element.getStatusMessage());
         };
@@ -401,7 +443,7 @@ public class BillController {
               case 2:
                 return "Serie";
               case 3:
-                return "Numero";
+                return "Correlativo";
               case 4:
                 return "Codigo";
               case 5:
@@ -422,7 +464,7 @@ public class BillController {
               case 2:
                 return baseObject.getSerie();
               case 3:
-                return baseObject.getNumero();
+                return baseObject.getCorrelativo();
               case 4:
                 return baseObject.getStatusCode();
               case 5:
@@ -455,29 +497,46 @@ public class BillController {
     dialog.setLocationRelativeTo(frame);
 
     SwingWorker worker =
-        new SwingWorker<List<Bill>, Void>() {
+        new SwingWorker<List<Bill>, Integer>() {
           @Override
           protected List<Bill> doInBackground() throws Exception {
             List<Bill> list = null;
+
             try {
               list = Poiji.fromExcel(file, Bill.class);
+              int size = list.size();
+
+              dialog.progressBar.setMinimum(0);
+              dialog.progressBar.setMaximum(size);
+
               for (int i = 0; i < list.size(); i++) {
                 Bill bill = (Bill) list.get(i);
 
                 StatusResponse statusResponse =
                     service.getStatus(
-                        bill.getRuc(), bill.getTipo(), bill.getSerie(), bill.getNumero());
+                        bill.getRuc(), bill.getTipo(), bill.getSerie(), bill.getCorrelativo());
 
                 list.get(i).setStatusCode(statusResponse.getStatusCode());
                 list.get(i).setStatusMessage(statusResponse.getStatusMessage());
+
+                publish(i);
               }
             } catch (Exception ex) {
               cancel(true);
 
               JOptionPane.showMessageDialog(
-                  null, ex.getMessage(), BillController.class.getName(), JOptionPane.ERROR_MESSAGE);
+                  frame,
+                  ex.getMessage(),
+                  BillController.class.getSimpleName(),
+                  JOptionPane.ERROR_MESSAGE);
             }
+
             return list;
+          }
+
+          @Override
+          protected void process(List<Integer> chunks) {
+            dialog.progressBar.setValue(chunks.get(0));
           }
 
           @Override
@@ -493,23 +552,15 @@ public class BillController {
 
                 resize(frame.table);
 
+                frame.btnExportar.setEnabled(true);
+
                 frame.tfFiltrar.requestFocus();
-
-                if (os.compareToIgnoreCase("linux") < 0) {
-                  showNotification(
-                      "Se consultaron " + get.size() + " comprobantes", MessageType.INFO);
-                }
-
               } catch (InterruptedException | ExecutionException ex) {
-                if (os.compareToIgnoreCase("linux") < 0) {
-                  showNotification("Error en clave SOL", MessageType.ERROR);
-                }
-
                 int input =
                     JOptionPane.showOptionDialog(
                         frame,
                         ex.getMessage(),
-                        "Error",
+                        BillController.class.getSimpleName(),
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.ERROR_MESSAGE,
                         null,
@@ -540,23 +591,6 @@ public class BillController {
       }
       if (width > 300) width = 300;
       columnModel.getColumn(column).setPreferredWidth(width);
-    }
-  }
-
-  private void showNotification(String message, MessageType type) {
-    try {
-      SystemTray tray = SystemTray.getSystemTray();
-      TrayIcon icon =
-          new TrayIcon(
-              FontIcon.of(RemixiconMZ.NOTIFICATION_LINE, 16, Color.decode("#FFFFFF"))
-                  .toImageIcon()
-                  .getImage(),
-              "JBillConsultService");
-      icon.setImageAutoSize(true);
-      icon.displayMessage("JBillStatus", message, type);
-      tray.add(icon);
-    } catch (AWTException ex) {
-      JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
   }
 }

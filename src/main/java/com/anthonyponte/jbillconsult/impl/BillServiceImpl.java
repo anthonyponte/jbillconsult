@@ -29,25 +29,20 @@ public class BillServiceImpl implements BillService {
       String tipoComprobante,
       String serieComprobante,
       Integer numeroComprobante) {
-    StatusResponse statusResponse = null;
-    try {
-      BillConsultService service = new BillConsultService();
-      BillService port = service.getBillConsultServicePort();
-      BindingProvider binding = (BindingProvider) port;
 
-      @SuppressWarnings("rawtypes")
-      List<Handler> handlers = new ArrayList<>();
-      SOAPHandler<SOAPMessageContext> handler = new SOAPHanlderImpl(RUC + USUARIO, CONTRASENA);
-      handlers.add(handler);
-      binding.getBinding().setHandlerChain(handlers);
+    BillConsultService service = new BillConsultService();
+    BillService port = service.getBillConsultServicePort();
+    BindingProvider binding = (BindingProvider) port;
 
-      statusResponse =
-          port.getStatus(rucComprobante, tipoComprobante, serieComprobante, numeroComprobante);
-    } catch (Exception ex) {
-      Logger.getLogger(BillServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-      JOptionPane.showMessageDialog(
-          null, ex.getMessage(), BillServiceImpl.class.getName(), JOptionPane.ERROR_MESSAGE);
-    }
+    @SuppressWarnings("rawtypes")
+    List<Handler> handlers = new ArrayList<>();
+    SOAPHandler<SOAPMessageContext> handler = new SOAPHanlderImpl(RUC + USUARIO, CONTRASENA);
+    handlers.add(handler);
+    binding.getBinding().setHandlerChain(handlers);
+
+    StatusResponse statusResponse =
+        port.getStatus(rucComprobante, tipoComprobante, serieComprobante, numeroComprobante);
+
     return statusResponse;
   }
 
@@ -57,26 +52,20 @@ public class BillServiceImpl implements BillService {
       String tipoComprobante,
       String serieComprobante,
       Integer numeroComprobante) {
-    StatusResponse statusResponse = null;
-    try {
-      BillConsultService service = new BillConsultService();
-      BillService port = service.getBillConsultServicePort();
-      BindingProvider binding = (BindingProvider) port;
 
-      @SuppressWarnings("rawtypes")
-      List<Handler> handlers = new ArrayList<>();
-      SOAPHandler<SOAPMessageContext> handler = new SOAPHanlderImpl(RUC + USUARIO, CONTRASENA);
-      handlers.add(handler);
-      binding.getBinding().setHandlerChain(handlers);
+    BillConsultService service = new BillConsultService();
+    BillService port = service.getBillConsultServicePort();
+    BindingProvider binding = (BindingProvider) port;
 
-      statusResponse =
-          port.getStatusCdr(rucComprobante, tipoComprobante, serieComprobante, numeroComprobante);
+    @SuppressWarnings("rawtypes")
+    List<Handler> handlers = new ArrayList<>();
+    SOAPHandler<SOAPMessageContext> handler = new SOAPHanlderImpl(RUC + USUARIO, CONTRASENA);
+    handlers.add(handler);
+    binding.getBinding().setHandlerChain(handlers);
 
-    } catch (Exception ex) {
-      Logger.getLogger(BillServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-      JOptionPane.showMessageDialog(
-          null, ex.getMessage(), BillServiceImpl.class.getName(), JOptionPane.ERROR_MESSAGE);
-    }
+    StatusResponse statusResponse =
+        port.getStatusCdr(rucComprobante, tipoComprobante, serieComprobante, numeroComprobante);
+
     return statusResponse;
   }
 }

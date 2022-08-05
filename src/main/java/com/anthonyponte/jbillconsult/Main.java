@@ -11,7 +11,7 @@ public class Main {
   public static void main(String[] args) {
     SwingUtilities.invokeLater(
         () -> {
-          FlatLaf.registerCustomDefaultsSource("com.anthonyponte.F.theme");
+          FlatLaf.registerCustomDefaultsSource("com.anthonyponte.jbillconsult.theme");
           FlatDarkLaf.setup();
           UsuarioFrame userFrame = new UsuarioFrame();
           new UsuarioController(userFrame).init();

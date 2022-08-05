@@ -12,8 +12,8 @@ public class Bill {
   @ExcelCellName("Serie")
   private String serie;
 
-  @ExcelCellName("Numero")
-  private int numero;
+  @ExcelCellName("Correlativo")
+  private int correlativo;
 
   private String statusCode;
   private String statusMessage;
@@ -24,18 +24,18 @@ public class Bill {
 
   public Bill() {}
 
-  public Bill(String ruc, String tipo, String serie, int numero) {
+  public Bill(String ruc, String tipo, String serie, int correlativo) {
     this.ruc = ruc;
     this.tipo = tipo;
     this.serie = serie;
-    this.numero = numero;
+    this.correlativo = correlativo;
   }
 
   public Bill(
       String ruc,
       String tipo,
       String serie,
-      int numero,
+      int correlativo,
       String statusCode,
       String statusMessage,
       byte[] content,
@@ -45,7 +45,7 @@ public class Bill {
     this.ruc = ruc;
     this.tipo = tipo;
     this.serie = serie;
-    this.numero = numero;
+    this.correlativo = correlativo;
     this.statusCode = statusCode;
     this.statusMessage = statusMessage;
     this.content = content;
@@ -78,12 +78,12 @@ public class Bill {
     this.serie = serie;
   }
 
-  public int getNumero() {
-    return numero;
+  public int getCorrelativo() {
+    return correlativo;
   }
 
-  public void setNumero(int numero) {
-    this.numero = numero;
+  public void setCorrelativo(int correlativo) {
+    this.correlativo = correlativo;
   }
 
   public String getStatusCode() {
@@ -143,8 +143,8 @@ public class Bill {
         + tipo
         + ", serie="
         + serie
-        + ", numero="
-        + numero
+        + ", correlativo="
+        + correlativo
         + ", statusCode="
         + statusCode
         + ", statusMessage="
