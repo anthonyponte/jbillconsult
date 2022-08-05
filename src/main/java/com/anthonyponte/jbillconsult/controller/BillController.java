@@ -407,8 +407,7 @@ public class BillController {
     service = new BillServiceImpl();
     eventList = new BasicEventList<>();
 
-    Comparator comparator =
-        (Comparator<Bill>) (Bill o1, Bill o2) -> o1.getCorrelativo() - o2.getCorrelativo();
+    Comparator<Bill> comparator = Comparator.comparing(Bill::getCorrelativo);
 
     sortedList = new SortedList<>(eventList, comparator);
 
