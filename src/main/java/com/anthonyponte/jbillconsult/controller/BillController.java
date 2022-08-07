@@ -5,14 +5,18 @@ import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.FilterList;
 import ca.odell.glazedlists.SortedList;
 import ca.odell.glazedlists.TextFilterator;
+import ca.odell.glazedlists.UniqueList;
 import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.matchers.MatcherEditor;
 import ca.odell.glazedlists.swing.AdvancedListSelectionModel;
 import ca.odell.glazedlists.swing.AdvancedTableModel;
+import ca.odell.glazedlists.swing.DefaultEventListModel;
 import ca.odell.glazedlists.swing.DefaultEventSelectionModel;
+import static ca.odell.glazedlists.swing.GlazedListsSwing.eventListModelWithThreadProxyList;
 import static ca.odell.glazedlists.swing.GlazedListsSwing.eventTableModelWithThreadProxyList;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
+import com.anthonyponte.jbillconsult.custom.BillToStatusMessageList;
 import com.anthonyponte.jbillconsult.pojo.Bill;
 import com.anthonyponte.jbillconsult.impl.BillServiceImpl;
 import com.anthonyponte.jbillconsult.view.BillFrame;
@@ -41,6 +45,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
@@ -60,9 +65,12 @@ public class BillController {
   private LoadingDialog dialog;
   private BillService service;
   private EventList<Bill> eventList;
+  private EventList<String> elEstado;
+  private UniqueList<String> ulEstado;
   private SortedList<Bill> sortedList;
   private AdvancedListSelectionModel<Bill> selectionModel;
   private AdvancedTableModel<Bill> model;
+  private DefaultEventListModel<String> listModel;
 
   public BillController(BillFrame frame) {
     this.frame = frame;
@@ -382,7 +390,9 @@ public class BillController {
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
 
-            if (input == JOptionPane.YES_OPTION) frame.dispose();
+            if (input == JOptionPane.YES_OPTION) {
+              frame.dispose();
+            }
           }
 
           @Override
@@ -487,6 +497,12 @@ public class BillController {
     TableComparatorChooser.install(
         frame.table, sortedList, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
 
+    elEstado = new BillToStatusMessageList(eventList);
+    ulEstado = new UniqueList<>(elEstado);
+    listModel = eventListModelWithThreadProxyList(ulEstado);
+
+    frame.lstEstado.setModel(listModel);
+
     frame.setVisible(true);
 
     frame.table.requestFocus();
@@ -589,7 +605,9 @@ public class BillController {
         Component comp = table.prepareRenderer(renderer, row, column);
         width = Math.max(comp.getPreferredSize().width + 1, width);
       }
-      if (width > 300) width = 300;
+      if (width > 300) {
+        width = 300;
+      }
       columnModel.getColumn(column).setPreferredWidth(width);
     }
   }

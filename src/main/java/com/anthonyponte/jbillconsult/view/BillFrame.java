@@ -8,9 +8,11 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.AbstractListModel;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -48,13 +50,14 @@ public class BillFrame extends javax.swing.JFrame {
         table = new JTable();
         btnExportar = new JButton();
         btnImportar = new JButton();
+        jScrollPane1 = new JScrollPane();
+        lstEstado = new JList<>();
         menuBar = new JMenuBar();
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("JBillConsult");
         setIconImages(list);
         setMinimumSize(new Dimension(800, 600));
-        setPreferredSize(new Dimension(800, 600));
 
         tfFiltrar.setMaximumSize(null);
         tfFiltrar.setMinimumSize(null);
@@ -86,6 +89,10 @@ public class BillFrame extends javax.swing.JFrame {
         btnImportar.setMaximumSize(null);
         btnImportar.setMinimumSize(null);
         btnImportar.setPreferredSize(new Dimension(100, 30));
+
+        lstEstado.setVisibleRowCount(6);
+        jScrollPane1.setViewportView(lstEstado);
+
         setJMenuBar(menuBar);
 
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -95,13 +102,14 @@ public class BillFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(tfFiltrar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(scroll)
+                    .addComponent(scroll, GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnImportar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExportar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -113,7 +121,9 @@ public class BillFrame extends javax.swing.JFrame {
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tfFiltrar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scroll, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+                .addComponent(scroll, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -125,6 +135,8 @@ public class BillFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public JButton btnExportar;
     public JButton btnImportar;
+    public JScrollPane jScrollPane1;
+    public JList<String> lstEstado;
     public JMenuBar menuBar;
     public JScrollPane scroll;
     public JTable table;
