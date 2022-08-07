@@ -4,9 +4,7 @@ import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.FilterList;
 import ca.odell.glazedlists.SortedList;
-import ca.odell.glazedlists.TextFilterator;
 import ca.odell.glazedlists.UniqueList;
-import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.matchers.MatcherEditor;
 import ca.odell.glazedlists.swing.AdvancedListSelectionModel;
 import ca.odell.glazedlists.swing.AdvancedTableModel;
@@ -19,6 +17,7 @@ import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 import com.anthonyponte.jbillconsult.glazedlist.BillTableFormat;
 import com.anthonyponte.jbillconsult.glazedlist.BillTextFilterator;
 import com.anthonyponte.jbillconsult.glazedlist.BillToStatusMessageList;
+import com.anthonyponte.jbillconsult.glazedlist.StatusMessageSelect;
 import com.anthonyponte.jbillconsult.pojo.Bill;
 import com.anthonyponte.jbillconsult.impl.BillServiceImpl;
 import com.anthonyponte.jbillconsult.view.BillFrame;
@@ -50,6 +49,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -66,12 +67,9 @@ public class BillController {
   private LoadingDialog dialog;
   private BillService service;
   private EventList<Bill> eventList;
-  private EventList<String> elEstado;
-  private UniqueList<String> ulEstado;
   private SortedList<Bill> sortedList;
   private AdvancedListSelectionModel<Bill> selectionModel;
   private AdvancedTableModel<Bill> model;
-  private DefaultEventListModel<String> listModel;
 
   public BillController(BillFrame frame) {
     this.frame = frame;
@@ -202,7 +200,7 @@ public class BillController {
           }
         });
 
-    frame.scroll.setDropTarget(
+    frame.scrllTable.setDropTarget(
         new DropTarget() {
           @Override
           public synchronized void drop(DropTargetDropEvent dtde) {
@@ -421,15 +419,18 @@ public class BillController {
     Comparator<Bill> comparator = Comparator.comparing(Bill::getCorrelativo);
 
     sortedList = new SortedList<>(eventList, comparator);
+    
+    StatusMessageSelect messageSelect = new StatusMessageSelect(sortedList, frame.list);
+    FilterList<Bill> slStatusMessage = new FilterList<>(sortedList, messageSelect);
 
     MatcherEditor<Bill> matcherEditor =
         new TextComponentMatcherEditor<>(this.frame.tfFiltrar, new BillTextFilterator());
 
-    FilterList<Bill> filterList = new FilterList<>(sortedList, matcherEditor);
+    FilterList<Bill> flBills = new FilterList<>(slStatusMessage, matcherEditor);
 
-    model = eventTableModelWithThreadProxyList(filterList, new BillTableFormat());
+    model = eventTableModelWithThreadProxyList(flBills, new BillTableFormat());
 
-    selectionModel = new DefaultEventSelectionModel<>(filterList);
+    selectionModel = new DefaultEventSelectionModel<>(flBills);
 
     frame.table.setModel(model);
 
@@ -437,12 +438,6 @@ public class BillController {
 
     TableComparatorChooser.install(
         frame.table, sortedList, TableComparatorChooser.MULTIPLE_COLUMN_MOUSE);
-
-    elEstado = new BillToStatusMessageList(eventList);
-    ulEstado = new UniqueList<>(elEstado);
-    listModel = eventListModelWithThreadProxyList(ulEstado);
-
-    frame.lstEstado.setModel(listModel);
 
     frame.setVisible(true);
 
