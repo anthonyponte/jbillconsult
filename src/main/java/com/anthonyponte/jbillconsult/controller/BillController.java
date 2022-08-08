@@ -4,8 +4,6 @@ import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.FilterList;
 import ca.odell.glazedlists.SortedList;
-import ca.odell.glazedlists.TextFilterator;
-import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.matchers.MatcherEditor;
 import ca.odell.glazedlists.swing.AdvancedListSelectionModel;
 import ca.odell.glazedlists.swing.AdvancedTableModel;
@@ -13,6 +11,9 @@ import ca.odell.glazedlists.swing.DefaultEventSelectionModel;
 import static ca.odell.glazedlists.swing.GlazedListsSwing.eventTableModelWithThreadProxyList;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
+import com.anthonyponte.jbillconsult.glazedlist.BillTableFormat;
+import com.anthonyponte.jbillconsult.glazedlist.BillTextFilterator;
+import com.anthonyponte.jbillconsult.glazedlist.StatusMessageSelect;
 import com.anthonyponte.jbillconsult.pojo.Bill;
 import com.anthonyponte.jbillconsult.impl.BillServiceImpl;
 import com.anthonyponte.jbillconsult.view.BillFrame;
@@ -193,7 +194,7 @@ public class BillController {
           }
         });
 
-    frame.scroll.setDropTarget(
+    frame.scrllTable.setDropTarget(
         new DropTarget() {
           @Override
           public synchronized void drop(DropTargetDropEvent dtde) {
@@ -382,7 +383,9 @@ public class BillController {
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
 
-            if (input == JOptionPane.YES_OPTION) frame.dispose();
+            if (input == JOptionPane.YES_OPTION) {
+              frame.dispose();
+            }
           }
 
           @Override
@@ -411,74 +414,19 @@ public class BillController {
 
     sortedList = new SortedList<>(eventList, comparator);
 
-    TextFilterator<Bill> textFilterator =
-        (List<String> baseList, Bill element) -> {
-          baseList.add(element.getRuc());
-          baseList.add(element.getTipo());
-          baseList.add(element.getSerie());
-          baseList.add(String.valueOf(element.getCorrelativo()));
-          baseList.add(element.getStatusCode());
-          baseList.add(element.getStatusMessage());
-        };
+    StatusMessageSelect messageSelect = new StatusMessageSelect(frame.list, sortedList);
+    messageSelect.confJList();
+    
+    FilterList<Bill> slStatusMessage = new FilterList<>(sortedList, messageSelect);
 
     MatcherEditor<Bill> matcherEditor =
-        new TextComponentMatcherEditor<>(this.frame.tfFiltrar, textFilterator);
+        new TextComponentMatcherEditor<>(this.frame.tfFiltrar, new BillTextFilterator());
 
-    FilterList<Bill> filterList = new FilterList<>(sortedList, matcherEditor);
+    FilterList<Bill> flBills = new FilterList<>(slStatusMessage, matcherEditor);
 
-    TableFormat<Bill> tableFormat =
-        new TableFormat<Bill>() {
-          @Override
-          public int getColumnCount() {
-            return 6;
-          }
+    model = eventTableModelWithThreadProxyList(flBills, new BillTableFormat());
 
-          @Override
-          public String getColumnName(int column) {
-            switch (column) {
-              case 0:
-                return "RUC";
-              case 1:
-                return "Tipo";
-              case 2:
-                return "Serie";
-              case 3:
-                return "Correlativo";
-              case 4:
-                return "Codigo";
-              case 5:
-                return "Estado";
-              default:
-                break;
-            }
-            throw new IllegalStateException("Unexpected column: " + column);
-          }
-
-          @Override
-          public Object getColumnValue(Bill baseObject, int column) {
-            switch (column) {
-              case 0:
-                return baseObject.getRuc();
-              case 1:
-                return baseObject.getTipo();
-              case 2:
-                return baseObject.getSerie();
-              case 3:
-                return baseObject.getCorrelativo();
-              case 4:
-                return baseObject.getStatusCode();
-              case 5:
-                return baseObject.getStatusMessage();
-              default:
-                break;
-            }
-            throw new IllegalStateException("Unexpected column: " + column);
-          }
-        };
-
-    model = eventTableModelWithThreadProxyList(filterList, tableFormat);
-
-    selectionModel = new DefaultEventSelectionModel<>(filterList);
+    selectionModel = new DefaultEventSelectionModel<>(flBills);
 
     frame.table.setModel(model);
 
@@ -589,7 +537,9 @@ public class BillController {
         Component comp = table.prepareRenderer(renderer, row, column);
         width = Math.max(comp.getPreferredSize().width + 1, width);
       }
-      if (width > 300) width = 300;
+      if (width > 300) {
+        width = 300;
+      }
       columnModel.getColumn(column).setPreferredWidth(width);
     }
   }
