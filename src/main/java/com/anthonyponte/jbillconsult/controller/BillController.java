@@ -414,7 +414,9 @@ public class BillController {
 
     sortedList = new SortedList<>(eventList, comparator);
 
-    StatusMessageSelect messageSelect = new StatusMessageSelect(sortedList, frame.list);
+    StatusMessageSelect messageSelect = new StatusMessageSelect(frame.list, sortedList);
+    messageSelect.confJList();
+    
     FilterList<Bill> slStatusMessage = new FilterList<>(sortedList, messageSelect);
 
     MatcherEditor<Bill> matcherEditor =

@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package com.anthonyponte.jbillconsult.glazedlist;
 
 import ca.odell.glazedlists.EventList;
@@ -22,29 +21,36 @@ import javax.swing.event.ListSelectionListener;
  * @author Anthony Ponte
  */
 public class StatusMessageSelect extends AbstractMatcherEditor<Bill>
-    implements ListSelectionListener {
+        implements ListSelectionListener {
 
-  private final EventList<String> statusList;
-  private final EventList<String> statusSelectedList;
+    private final JList list;
+    private final EventList<Bill> billList;
+    private EventList<String> statusList;
+    private EventList<String> statusSelectedList;
 
-  public StatusMessageSelect(EventList<Bill> source, JList list) {
-    EventList<String> usersNonUnique = new BillToStatusMessageList(source);
-    statusList = new UniqueList<>(usersNonUnique);
+    public StatusMessageSelect(JList list, EventList<Bill> billList) {
+        this.list = list;
+        this.billList = billList;
+    }
 
-    DefaultEventListModel<String> model = eventListModelWithThreadProxyList(statusList);
-    list.setModel(model);
+    public void confJList() {
+        EventList<String> usersNonUnique = new BillToStatusMessageList(billList);
+        statusList = new UniqueList<>(usersNonUnique);
 
-    AdvancedListSelectionModel<String> selectionModel =
-        eventSelectionModelWithThreadProxyList(statusList);
-    list.setSelectionModel(selectionModel);
-    statusSelectedList = selectionModel.getSelected();
+        DefaultEventListModel<String> model = eventListModelWithThreadProxyList(statusList);
+        list.setModel(model);
 
-    list.addListSelectionListener(this);
-  }
+        AdvancedListSelectionModel<String> selectionModel
+                = eventSelectionModelWithThreadProxyList(statusList);
+        list.setSelectionModel(selectionModel);
+        statusSelectedList = selectionModel.getSelected();
 
-  @Override
-  public void valueChanged(ListSelectionEvent lse) {
-    Matcher<Bill> matcher = new BillForStatusMessageMatcher(statusSelectedList);
-    fireChanged(matcher);
-  }
+        list.addListSelectionListener(this);
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent lse) {
+        Matcher<Bill> matcher = new BillForStatusMessageMatcher(statusSelectedList);
+        fireChanged(matcher);
+    }
 }
