@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
@@ -39,11 +40,12 @@ public class BillFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         tfFiltrar = new JTextField();
-        scrllTable = new JScrollPane();
-        table = new JTable();
         btnExportar = new JButton();
         btnImportar = new JButton();
-        scrollList = new JScrollPane();
+        splitPane = new JSplitPane();
+        scrllTable = new JScrollPane();
+        table = new JTable();
+        scrllList = new JScrollPane();
         list = new JList<>();
         menuBar = new JMenuBar();
 
@@ -51,6 +53,7 @@ public class BillFrame extends javax.swing.JFrame {
         setTitle("JBillConsult");
         setIconImages(images);
         setMinimumSize(new Dimension(800, 600));
+        setPreferredSize(new Dimension(800, 600));
 
         tfFiltrar.setMaximumSize(null);
         tfFiltrar.setMinimumSize(null);
@@ -60,6 +63,22 @@ public class BillFrame extends javax.swing.JFrame {
         tfFiltrar.putClientProperty("JTextField.leadingIcon", FontIcon.of(RemixiconAL.FILTER_LINE, 16, Color.decode("#FFFFFF")));
         tfFiltrar.putClientProperty("JTextField.placeholderText", "Filtrar");
         tfFiltrar.putClientProperty("JTextField.showClearButton", true);
+
+        btnExportar.setIcon(FontIcon.of(RemixiconAL.FILE_EXCEL_LINE, 16, Color.decode("#FFFFFF")));
+        btnExportar.setText("Exportar");
+        btnExportar.setEnabled(false);
+        btnExportar.setPreferredSize(new Dimension(150, 30));
+
+        btnImportar.setIcon(FontIcon.of(RemixiconAL.FILE_SEARCH_LINE, 16, Color.decode("#FFFFFF")));
+        btnImportar.setText("Importar");
+        btnImportar.setMaximumSize(null);
+        btnImportar.setMinimumSize(null);
+        btnImportar.setPreferredSize(new Dimension(150, 30));
+
+        splitPane.setDividerLocation(300);
+        splitPane.setDividerSize(6);
+        splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+        splitPane.setResizeWeight(1.0);
 
         table.setModel(new DefaultTableModel(
             new Object [][] {
@@ -72,19 +91,12 @@ public class BillFrame extends javax.swing.JFrame {
         table.getTableHeader().setReorderingAllowed(false);
         scrllTable.setViewportView(table);
 
-        btnExportar.setIcon(FontIcon.of(RemixiconAL.FILE_EXCEL_LINE, 16, Color.decode("#FFFFFF")));
-        btnExportar.setText("Exportar");
-        btnExportar.setEnabled(false);
-        btnExportar.setPreferredSize(new Dimension(100, 30));
-
-        btnImportar.setIcon(FontIcon.of(RemixiconAL.FILE_SEARCH_LINE, 16, Color.decode("#FFFFFF")));
-        btnImportar.setText("Importar");
-        btnImportar.setMaximumSize(null);
-        btnImportar.setMinimumSize(null);
-        btnImportar.setPreferredSize(new Dimension(100, 30));
+        splitPane.setTopComponent(scrllTable);
 
         list.setVisibleRowCount(6);
-        scrollList.setViewportView(list);
+        scrllList.setViewportView(list);
+
+        splitPane.setRightComponent(scrllList);
 
         setJMenuBar(menuBar);
 
@@ -95,14 +107,13 @@ public class BillFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(tfFiltrar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(scrllTable, GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnImportar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnExportar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(scrollList))
+                    .addComponent(splitPane, GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -114,9 +125,7 @@ public class BillFrame extends javax.swing.JFrame {
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tfFiltrar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrllTable, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(splitPane)
                 .addContainerGap())
         );
 
@@ -130,8 +139,9 @@ public class BillFrame extends javax.swing.JFrame {
     public JButton btnImportar;
     public JList<String> list;
     public JMenuBar menuBar;
+    public JScrollPane scrllList;
     public JScrollPane scrllTable;
-    public JScrollPane scrollList;
+    public JSplitPane splitPane;
     public JTable table;
     public JTextField tfFiltrar;
     // End of variables declaration//GEN-END:variables
