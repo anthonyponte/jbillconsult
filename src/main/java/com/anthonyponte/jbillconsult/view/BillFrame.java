@@ -67,18 +67,19 @@ public class BillFrame extends javax.swing.JFrame {
         btnExportar.setIcon(FontIcon.of(RemixiconAL.FILE_EXCEL_LINE, 16, Color.decode("#FFFFFF")));
         btnExportar.setText("Exportar");
         btnExportar.setEnabled(false);
-        btnExportar.setPreferredSize(new Dimension(150, 30));
+        btnExportar.setPreferredSize(new Dimension(125, 30));
 
         btnImportar.setIcon(FontIcon.of(RemixiconAL.FILE_SEARCH_LINE, 16, Color.decode("#FFFFFF")));
         btnImportar.setText("Importar");
         btnImportar.setMaximumSize(null);
         btnImportar.setMinimumSize(null);
-        btnImportar.setPreferredSize(new Dimension(150, 30));
+        btnImportar.setPreferredSize(new Dimension(125, 30));
 
-        splitPane.setDividerLocation(300);
+        splitPane.setDividerLocation(400);
         splitPane.setDividerSize(6);
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setResizeWeight(1.0);
+        splitPane.setLastDividerLocation(200);
 
         table.setModel(new DefaultTableModel(
             new Object [][] {

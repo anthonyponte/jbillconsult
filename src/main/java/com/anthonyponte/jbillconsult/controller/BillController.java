@@ -4,19 +4,15 @@ import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.FilterList;
 import ca.odell.glazedlists.SortedList;
-import ca.odell.glazedlists.UniqueList;
 import ca.odell.glazedlists.matchers.MatcherEditor;
 import ca.odell.glazedlists.swing.AdvancedListSelectionModel;
 import ca.odell.glazedlists.swing.AdvancedTableModel;
-import ca.odell.glazedlists.swing.DefaultEventListModel;
 import ca.odell.glazedlists.swing.DefaultEventSelectionModel;
-import static ca.odell.glazedlists.swing.GlazedListsSwing.eventListModelWithThreadProxyList;
 import static ca.odell.glazedlists.swing.GlazedListsSwing.eventTableModelWithThreadProxyList;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 import ca.odell.glazedlists.swing.TextComponentMatcherEditor;
 import com.anthonyponte.jbillconsult.glazedlist.BillTableFormat;
 import com.anthonyponte.jbillconsult.glazedlist.BillTextFilterator;
-import com.anthonyponte.jbillconsult.glazedlist.BillToStatusMessageList;
 import com.anthonyponte.jbillconsult.glazedlist.StatusMessageSelect;
 import com.anthonyponte.jbillconsult.pojo.Bill;
 import com.anthonyponte.jbillconsult.impl.BillServiceImpl;
@@ -49,8 +45,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -419,7 +413,7 @@ public class BillController {
     Comparator<Bill> comparator = Comparator.comparing(Bill::getCorrelativo);
 
     sortedList = new SortedList<>(eventList, comparator);
-    
+
     StatusMessageSelect messageSelect = new StatusMessageSelect(sortedList, frame.list);
     FilterList<Bill> slStatusMessage = new FilterList<>(sortedList, messageSelect);
 
