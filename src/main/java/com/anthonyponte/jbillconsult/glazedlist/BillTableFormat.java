@@ -1,16 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package com.anthonyponte.jbillconsult.glazedlist;
 
 import ca.odell.glazedlists.gui.TableFormat;
 import com.anthonyponte.jbillconsult.pojo.Bill;
 
-/**
- * @author Anthony Ponte
- */
 public class BillTableFormat implements TableFormat<Bill> {
 
   @Override
