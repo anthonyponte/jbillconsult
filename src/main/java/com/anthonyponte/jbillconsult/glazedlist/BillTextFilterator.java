@@ -1,17 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package com.anthonyponte.jbillconsult.glazedlist;
 
 import ca.odell.glazedlists.TextFilterator;
 import com.anthonyponte.jbillconsult.pojo.Bill;
 import java.util.List;
 
-/**
- * @author Anthony Ponte
- */
 public class BillTextFilterator implements TextFilterator<Bill> {
 
   @Override

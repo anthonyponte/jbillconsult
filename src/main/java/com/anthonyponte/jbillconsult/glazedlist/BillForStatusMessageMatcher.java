@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package com.anthonyponte.jbillconsult.glazedlist;
 
 import ca.odell.glazedlists.matchers.Matcher;
@@ -11,9 +6,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * @author Anthony Ponte
- */
 public class BillForStatusMessageMatcher implements Matcher<Bill> {
 
   private final Set<String> status = new HashSet<>();

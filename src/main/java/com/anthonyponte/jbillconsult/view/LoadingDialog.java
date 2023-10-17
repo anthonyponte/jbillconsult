@@ -18,7 +18,6 @@ public class LoadingDialog extends javax.swing.JDialog {
         setPreferredSize(new java.awt.Dimension(300, 30));
         setResizable(false);
 
-        progressBar.setPreferredSize(null);
         progressBar.setStringPainted(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
