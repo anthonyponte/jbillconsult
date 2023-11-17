@@ -150,13 +150,13 @@ public class Bill {
         + ", statusMessage="
         + statusMessage
         + ", content="
-        + content
+        + content.length
         + ", cdrStatusCode="
         + cdrStatusCode
         + ", cdrStatusMessage="
         + cdrStatusMessage
         + ", cdrContent="
-        + cdrContent
+        + cdrContent.length
         + '}';
   }
 }

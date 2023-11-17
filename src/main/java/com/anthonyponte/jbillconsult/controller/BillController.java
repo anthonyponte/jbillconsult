@@ -52,11 +52,10 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import sunat.gob.pe.BillService;
-import sunat.gob.pe.StatusResponse;
+import pe.gob.sunat.billconsultservice.BillService;
+import pe.gob.sunat.billconsultservice.StatusResponse;
 
 public class BillController {
-
   private final BillFrame frame;
   private LoadingDialog dialog;
   private BillService service;

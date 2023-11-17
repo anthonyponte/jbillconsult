@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class BillForStatusMessageMatcher implements Matcher<Bill> {
-
   private final Set<String> status = new HashSet<>();
 
   public BillForStatusMessageMatcher(Collection<String> status) {
