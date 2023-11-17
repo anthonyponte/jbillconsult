@@ -12,7 +12,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class UsuarioController {
-
   private final UsuarioFrame frame;
   private Preferences prefs;
   public static final String RUC = "RUC";

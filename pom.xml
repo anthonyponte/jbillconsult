@@ -4,7 +4,7 @@
     
     <groupId>com.anthonyponte.jbillconsult</groupId>
     <artifactId>JBillConsult</artifactId>
-    <version>1.3.1</version>
+    <version>1.4.0</version>
     <dependencies>
         <dependency>
             <groupId>com.formdev</groupId>
@@ -128,7 +128,7 @@
                             <wsdlFiles>
                                 <wsdlFile>e-factura.sunat.gob.pe/ol-it-wsconscpegem/billConsultService.wsdl</wsdlFile>
                             </wsdlFiles>
-                            <packageName>sunat.gob.pe</packageName>
+                            <packageName>pe.gob.sunat.billconsultservice</packageName>
                             <vmArgs>
                                 <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
                             </vmArgs>
@@ -138,6 +138,27 @@
                         <id>wsimport-generate-billConsultService</id>
                         <phase>generate-sources</phase>
                     </execution>
+                    
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <extension>true</extension>
+                            <wsdlFiles>
+                                <wsdlFile>e-factura.sunat.gob.pe/ol-it-wsconsvalidcpe/billValidService.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>pe.gob.sunat.billvalidservice</packageName>
+                            <vmArgs>
+                                <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                            </vmArgs>
+                            <wsdlLocation>https://e-factura.sunat.gob.pe/ol-it-wsconsvalidcpe/billValidService?wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/billValidService.stale</staleFile>
+                        </configuration>
+                        <id>wsimport-generate-billValidService</id>
+                        <phase>generate-sources</phase>
+                    </execution>
+                    
                 </executions>
                 <dependencies>
                     <dependency>

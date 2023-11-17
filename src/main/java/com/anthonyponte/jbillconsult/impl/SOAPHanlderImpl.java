@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.xml.namespace.QName;
 
 public class SOAPHanlderImpl implements SOAPHandler<SOAPMessageContext> {
-
   private final String username;
   private final String password;
 

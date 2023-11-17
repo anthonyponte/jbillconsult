@@ -25,5 +25,6 @@ Any value defined here will override the pom.xml file value but is only applicab
         <de-funfried-netbeans-plugins-externalcodeformatter.useProjectSettings>false</de-funfried-netbeans-plugins-externalcodeformatter.useProjectSettings>
         <netbeans.hint.license>gpl30</netbeans.hint.license>
         <org-netbeans-modules-javascript2-requirejs.enabled>true</org-netbeans-modules-javascript2-requirejs.enabled>
+        <org-netbeans-modules-maven-jaxws._5f_C_5f_billValidService>https://e-factura.sunat.gob.pe/ol-it-wsconsvalidcpe/billValidService?wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_billValidService>
     </properties>
 </project-shared-configuration>

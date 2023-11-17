@@ -7,7 +7,6 @@ import javax.swing.text.DocumentFilter;
 
 public class IntegerFilter extends DocumentFilter {
   private final Pattern regexCheck = Pattern.compile("[0-9]+");
-
   private final int maxLength;
 
   public IntegerFilter(int maxLength) {
